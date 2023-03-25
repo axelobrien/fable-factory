@@ -1,0 +1,18 @@
+@use 'variables.scss';
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: variables.$nav-height;
+  background-color: variables.$bg-color;
+  border-bottom: 2px #D2DFEB solid;
+}
+
+.logo {
+  @include variables.logo;
+  font-size: 48px;
+  margin: auto 2rem;
+  text-decoration: none;
+}

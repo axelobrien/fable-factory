@@ -1,0 +1,6 @@
+@import 'variables.scss';
+
+.logo {
+  @include logo;
+  font-size: 12rem;
+}

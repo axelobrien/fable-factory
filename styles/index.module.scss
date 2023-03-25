@@ -1,0 +1,25 @@
+@use 'variables.scss';
+
+.logo {
+  @include variables.logo;
+  font-size: 7rem;
+  margin-top: calc(variables.$nav-height + 3rem);
+}
+
+.topBlob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 80vh;
+  aspect-ratio: 1165 / 896; // aspect of svg
+  z-index: -1;
+  pointer-events: none;
+}
+
+.firstSection {
+  height: 80vh;
+  aspect-ratio: 1165 / 896; // aspect of svg
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}

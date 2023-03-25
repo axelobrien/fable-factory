@@ -1,0 +1,12 @@
+@use 'variables.scss';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: inter;
+}
+
+body {
+  background: variables.$bg-color;
+}
