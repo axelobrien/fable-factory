@@ -1,0 +1,27 @@
+.sentence {
+  width: 0;
+  overflow: hidden;
+  animation: typing 3s forwards;
+}
+
+@keyframes typing {
+  from { 
+    width: 0; 
+    height: 1.5rem; 
+    overflow: hidden;
+  }
+  99% {
+    height: 1.5rem;
+    overflow: hidden;
+  }
+  to { 
+    width: 100%;
+    height: max-content;
+    overflow-y: hidden;
+    overflow-x: wrap;
+  }
+}
+
+.sentenceContainer {
+  max-width: 672px;
+}

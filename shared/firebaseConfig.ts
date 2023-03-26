@@ -27,6 +27,9 @@ function connectEmulators(host: string) {
 }
 
 function turnOnEmulators() {
+  if (typeof window === 'undefined') {
+    return
+  }
   switch (window.location.hostname) {
     case 'localhost':
       connectEmulators('localhost')
@@ -42,6 +45,6 @@ function turnOnEmulators() {
   }
 }
 
-// turnOnEmulators()
+turnOnEmulators()
 
 export { firebaseConfig, app, auth, db, functions }

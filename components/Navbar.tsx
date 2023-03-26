@@ -8,6 +8,7 @@ function  Navbar() {
         Fable Factory
       </a>
     </nav>
+    <div className={styles.padding} />
   </>)
 }
 

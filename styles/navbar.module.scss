@@ -4,10 +4,14 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: variables.$nav-height;
   background-color: variables.$bg-color;
   border-bottom: 2px #D2DFEB solid;
+}
+
+.padding {
+  height: variables.$nav-height;
 }
 
 .logo {

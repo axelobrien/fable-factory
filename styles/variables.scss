@@ -1,5 +1,6 @@
 $nav-height: 60px;
 $bg-color: #F1F5F9;
+$accent-green: #22C55E;
 
 @mixin logo {
   font-weight: 900;
@@ -7,4 +8,17 @@ $bg-color: #F1F5F9;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-flex;
+}
+
+@mixin button {
+  background-color: $accent-green;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  width: max-content;
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.75rem;
 }
