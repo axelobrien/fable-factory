@@ -1,5 +1,6 @@
 $nav-height: 60px;
 $bg-color: #F1F5F9;
+$border-color: #BCC8D1;
 $accent-green: #22C55E;
 
 @mixin logo {
@@ -21,4 +22,19 @@ $accent-green: #22C55E;
   padding: 0.75rem 0.5rem;
   cursor: pointer;
   border-radius: 0.75rem;
+}
+
+@mixin button-press($name, $start-position, $end-position) {
+  animation-name: $name;
+
+  @at-root {
+    @keyframes #{$name} {
+      0% {
+        transform: scale($start-position);
+      }
+      100% {
+        transform: scale($end-position);
+      }
+    }
+  }
 }

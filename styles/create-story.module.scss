@@ -23,6 +23,9 @@
   width: 100%;
   resize: none;
   font: inherit;
+  background-color: variables.$bg-color;
+  border-radius: 0.75rem;
+  border: 0.25rem solid variables.$border-color;
 }
 
 .form {
@@ -57,4 +60,15 @@
   margin-top: auto;
   padding: 0.5rem;
   margin-left: 1rem;
+  transition: 100ms;
+
+  &:hover {
+    background-color: variables.$border-color;
+  }
+
+  &:active {
+    background-color: variables.$border-color; 
+    animation: 0.1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    @include variables.button-press(in, 1, 0.9)
+  }
 }

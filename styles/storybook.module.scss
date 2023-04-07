@@ -1,0 +1,44 @@
+@use 'variables.scss';
+
+.container {
+  width: 90%;
+  max-width: 672px;
+  position: relative;
+}
+
+.leftText {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 30%;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.rightText {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  width: 30%;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.media {
+  object-fit: cover;
+  width: 110%;
+  align-self: center;
+  margin-left: -5%;
+  pointer-events: none;
+}
+
+.button {
+  @include variables.button;
+  border: none;
+  margin-left: 1rem;
+}
+
+.buttonContainer {
+  margin: 0 0 0 auto;
+  width: max-content;
+}

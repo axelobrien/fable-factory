@@ -9,7 +9,7 @@ function StoryText({ rawText }: Props) {
   const sentences = rawText.split(/(?<=[.?!])\s+|(?<=\r)/g) //detects end of sentence
 
   return (<>
-    <div className={styles.sentenceContainer}>
+    <div className={styles.sentenceContainer} key={'container'}>
       {sentences.map((sentence, index) => {
         return <>
             <p

@@ -7,7 +7,7 @@
   width: 100%;
   height: variables.$nav-height;
   background-color: variables.$bg-color;
-  border-bottom: 2px #D2DFEB solid;
+  border-bottom: 2px variables.$border-color solid;
 }
 
 .padding {
