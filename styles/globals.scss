@@ -5,8 +5,11 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'inter';
+  overflow-x: hidden;
 }
 
 body {
   background: variables.$bg-color;
+  min-height: 100vh;
+  position: relative;
 }

@@ -72,7 +72,7 @@ function StoryBook({ rawText }: Props) {
   return (<>
     <div
       className={styles.container}
-      style={{ height }}
+      // style={{ height }}
     >
       {readingState === ReadingState.FrontCover ? <>
         <img
@@ -96,6 +96,7 @@ function StoryBook({ rawText }: Props) {
               className={styles.media}
               alt='open book'
               onLoad={(e) => { e.preventDefault() }}
+              height={ height }
             />
 
             <div className={styles.leftText} ref={leftPageRef}>

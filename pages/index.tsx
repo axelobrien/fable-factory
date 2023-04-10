@@ -1,10 +1,14 @@
 import Image from 'next/image'
 import React from 'react'
 import styles from '../styles/index.module.scss'
+import Head from 'next/head'
 
 function Index() {
   return (<>
-    <main>
+    <Head>
+      <title>Fable Factory</title>
+    </Head>
+    <main className={styles.main}>
       <section className={styles.firstSection}>
         <h1 className={styles.logo}>
           Fable Factory
