@@ -11,6 +11,7 @@
   top: 15%;
   left: 15%;
   width: 30%;
+  height: 10 * 1.5rem;
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -20,6 +21,7 @@
   top: 15%;
   right: 10%;
   width: 30%;
+  height: 10 * 1.5rem;
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -41,4 +43,9 @@
 .buttonContainer {
   margin: 0 0 0 auto;
   width: max-content;
+}
+
+.pageText {
+  font-size: 0.2rem;
+  word-wrap: break-word;
 }

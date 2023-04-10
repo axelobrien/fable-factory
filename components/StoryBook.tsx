@@ -17,12 +17,56 @@ function StoryBook({ rawText }: Props) {
   const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
   const [currentLeftPage, setCurrentLeftPage] = useState(0)
   const [height, setHeight] = useState<string | undefined>(undefined)
+  const leftPageRef = useRef<HTMLDivElement>(null)
+  const rightPageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (rawText.length > 0 && readingState === ReadingState.FrontCover) {
       setReadingState(ReadingState.Beginning)
     }
   }, [sentences])
+
+  
+  useEffect(() => {
+    if (!leftPageRef.current) return
+    const leftDiv = leftPageRef.current
+    const leftFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPage])
+    leftDiv.style.fontSize = leftFontSize + "px"
+    
+    if (!rightPageRef.current) return
+    const rightDiv = rightPageRef.current
+    const rightFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPage + 1])
+    rightDiv.style.fontSize = rightFontSize + "px"
+  }, [currentLeftPage])
+
+  function getFontSizeToFitText(div: HTMLDivElement, text: string) {
+    const maxHeight = div.clientHeight
+    const maxWidth = div.clientWidth
+    const fontWeight = '700' // Bold
+    let fontSize = 24 // initial font size
+
+    const tempDiv = document.createElement('div')
+    tempDiv.style.position = 'absolute'
+    tempDiv.style.visibility = 'hidden'
+  
+    document.body.appendChild(tempDiv)
+  
+    while (fontSize > 0) {
+      tempDiv.style.fontSize = fontSize + 'px'
+      tempDiv.style.width = maxWidth + 'px'
+      tempDiv.style.fontWeight = fontWeight
+      tempDiv.innerHTML = text
+  
+      const tempHeight = tempDiv.clientHeight
+      if (tempHeight <= maxHeight) {
+        break
+      }
+  
+      fontSize--
+    }
+    document.body.removeChild(tempDiv)
+    return fontSize
+  }
 
   return (<>
     <div
@@ -53,13 +97,24 @@ function StoryBook({ rawText }: Props) {
               onLoad={(e) => { e.preventDefault() }}
             />
 
-            <p className={styles.leftText}>
-              {sentences[currentLeftPage]}
-            </p>
+            {/* <svg viewBox='0 0 30 40' className={styles.leftText} xmlns="http://www.w3.org/2000/svg">
+              <text x='0' y='4' className={styles.pageText}> 
+                {sentences[currentLeftPage]}
+              </text> 
+            </svg> */}
 
-            <p className={styles.rightText}>
-              {sentences[currentLeftPage + 1]}
-            </p>
+
+            <div className={styles.leftText} ref={leftPageRef}>
+              <p >
+                {sentences[currentLeftPage]}
+              </p>
+            </div>
+
+            <div className={styles.rightText} ref={rightPageRef}>
+              <p>
+                {sentences[currentLeftPage + 1]}
+              </p>
+            </div>
 
             <div className={styles.buttonContainer}>
               <button
@@ -70,7 +125,7 @@ function StoryBook({ rawText }: Props) {
               </button>
               <button
                 className={styles.button}
-                onClick={() => setCurrentLeftPage((c) => c <= sentences.length - 1 ? c + 2 : c)}
+                onClick={() => setCurrentLeftPage((c) => c <= (sentences.length - 2) ? c + 2 : c)}
               >
                 Forward
               </button>
