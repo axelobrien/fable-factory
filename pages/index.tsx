@@ -25,10 +25,22 @@ function Index() {
 
         <img
           className={styles.topBlob}
-          src="/images/top-blob.svg"
-          alt="Top Blob"
+          src='/images/top-blob.svg'
+          alt='Top Blob'
         />
+
       </section>
+      <div className={styles.bookstackContainer}>
+        <img
+          className={styles.bookStackImage}
+          src='/images/many-books.png'
+          alt='Books showing some of the languages we support'
+        />
+
+        <p className={styles.multilingualHeader}>
+          We've got stories in the language you're learning.
+        </p>
+      </div>
     </main>
   </>)
 }
