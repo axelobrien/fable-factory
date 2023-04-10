@@ -13,7 +13,7 @@ enum ReadingState {
 }
 
 function StoryBook({ rawText }: Props) {
-  const sentences = rawText.split(/(?<=[.?!])\s+|(?<=\r)/g) //detects end of sentence
+  const sentences = rawText.split(/(?<=[.?!。])\s+|(?<=\r)/g) //detects end of sentence
   const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
   const [currentLeftPage, setCurrentLeftPage] = useState(0)
   const [height, setHeight] = useState<string | undefined>(undefined)
@@ -37,8 +37,9 @@ function StoryBook({ rawText }: Props) {
     const rightDiv = rightPageRef.current
     const rightFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPage + 1])
     rightDiv.style.fontSize = rightFontSize + "px"
-  }, [currentLeftPage])
+  }, [currentLeftPage, readingState])
 
+  // Starts at 24 font size then decreases until it fits
   function getFontSizeToFitText(div: HTMLDivElement, text: string) {
     const maxHeight = div.clientHeight
     const maxWidth = div.clientWidth
@@ -96,13 +97,6 @@ function StoryBook({ rawText }: Props) {
               alt='open book'
               onLoad={(e) => { e.preventDefault() }}
             />
-
-            {/* <svg viewBox='0 0 30 40' className={styles.leftText} xmlns="http://www.w3.org/2000/svg">
-              <text x='0' y='4' className={styles.pageText}> 
-                {sentences[currentLeftPage]}
-              </text> 
-            </svg> */}
-
 
             <div className={styles.leftText} ref={leftPageRef}>
               <p >
