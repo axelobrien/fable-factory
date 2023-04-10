@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { createElement, useEffect, useRef, useState } from 'react'
 import styles from '../styles/storybook.module.scss'
 
 type Props = {
@@ -13,7 +13,7 @@ enum ReadingState {
 }
 
 function StoryBook({ rawText }: Props) {
-  const sentences = rawText.split(/(?<=[.?!。])\s+|(?<=\r)/g) //detects end of sentence
+  const sentences = rawText.split(/[.?!。！？]\s+(?=[^\p{P}\p{S}\p{Z}\p{C}])/gu) //detects end of sentence
   const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
   const [currentLeftPage, setCurrentLeftPage] = useState(0)
   const [height, setHeight] = useState<string | undefined>(undefined)
@@ -35,7 +35,7 @@ function StoryBook({ rawText }: Props) {
     
     if (!rightPageRef.current) return
     const rightDiv = rightPageRef.current
-    const rightFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPage + 1])
+    const rightFontSize = getFontSizeToFitText(rightDiv, sentences[currentLeftPage + 1])
     rightDiv.style.fontSize = rightFontSize + "px"
   }, [currentLeftPage, readingState])
 
@@ -48,7 +48,7 @@ function StoryBook({ rawText }: Props) {
 
     const tempDiv = document.createElement('div')
     tempDiv.style.position = 'absolute'
-    tempDiv.style.visibility = 'hidden'
+    // tempDiv.style.visibility = 'hidden'
   
     document.body.appendChild(tempDiv)
   
@@ -59,13 +59,13 @@ function StoryBook({ rawText }: Props) {
       tempDiv.innerHTML = text
   
       const tempHeight = tempDiv.clientHeight
-      if (tempHeight <= maxHeight) {
+      if (tempHeight < maxHeight) {
         break
       }
   
       fontSize--
     }
-    document.body.removeChild(tempDiv)
+    // document.body.removeChild(tempDiv)
     return fontSize
   }
 
@@ -85,6 +85,7 @@ function StoryBook({ rawText }: Props) {
             className={styles.media}
             autoPlay
             muted
+            playsInline
             controls={false}
             onEnded={() => setReadingState(ReadingState.Reading)}
             // @ts-ignore
@@ -100,15 +101,11 @@ function StoryBook({ rawText }: Props) {
             />
 
             <div className={styles.leftText} ref={leftPageRef}>
-              <p >
                 {sentences[currentLeftPage]}
-              </p>
             </div>
 
             <div className={styles.rightText} ref={rightPageRef}>
-              <p>
                 {sentences[currentLeftPage + 1]}
-              </p>
             </div>
 
             <div className={styles.buttonContainer}>

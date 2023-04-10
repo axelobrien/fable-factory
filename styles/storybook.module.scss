@@ -8,19 +8,19 @@
 
 .leftText {
   position: absolute;
-  top: 12%;
+  top: 15%;
   left: 15%;
   width: 30%;
-  height: 55%;
+  height: min(35vw, 280px);
   font-weight: 700;
 }
 
 .rightText {
   position: absolute;
-  top: 12%;
+  top: 15%;
   right: 13%;
   width: 30%;
-  height: 55%;
+  height: min(35vw, 280px);
   font-weight: 700;
 }
 
@@ -46,4 +46,8 @@
 .pageText {
   font-size: 0.2rem;
   word-wrap: break-word;
+}
+
+.storyText {
+  padding: 0;
 }
