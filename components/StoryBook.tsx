@@ -48,7 +48,7 @@ function StoryBook({ rawText }: Props) {
 
     const tempDiv = document.createElement('div')
     tempDiv.style.position = 'absolute'
-    // tempDiv.style.visibility = 'hidden'
+    tempDiv.style.visibility = 'hidden'
   
     document.body.appendChild(tempDiv)
   
@@ -65,7 +65,7 @@ function StoryBook({ rawText }: Props) {
   
       fontSize--
     }
-    // document.body.removeChild(tempDiv)
+    document.body.removeChild(tempDiv)
     return fontSize
   }
 
