@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { StoryInput, StoryOutput } from '../../types/generateStory'
 import { Configuration } from 'openai'
-import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
+import { OpenAIApi } from 'openai/dist/api'
 
 if (!admin.apps.length)
   admin.initializeApp()
@@ -17,6 +17,8 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
     readingLevel: 'A1',
     story: '',
     title: '',
+    id: '',
+    visibility: 'private',
   } as StoryOutput
 
   // const uid = context.auth?.uid
@@ -52,26 +54,25 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
     readingLevel: data.readingLevel
   }
 
-  const messages = [
-    {
-      role: 'system',
-      content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
-    },
-    {
-      role: 'system',
-      content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
-    },
-    {
-      role: 'user',
-      content: input.prompt,
-    }
-  ] as ChatCompletionRequestMessage[]
-
   try {
+    // Generate story
     const storyResponse = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       max_tokens: 500,
-      messages
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
+        },
+        {
+          role: 'system',
+          content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
+        },
+        {
+          role: 'user',
+          content: input.prompt,
+        }
+      ]
     })
 
     const story = storyResponse.data.choices[0].message?.content
@@ -79,15 +80,24 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
     if (!story)
       return errorObject
 
+    const coverResponse = await openai.createImage({
+      prompt: `${input.prompt}, digital art, book cover, no text`,
+      n: 1,
+      size: "1024x1024",
+    })
+
     const output: StoryOutput = {
       readingLevel: input.readingLevel,
       language: input.language,
-      coverImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Domestic_Goose.jpg/220px-Domestic_Goose.jpg', // placeholder until I start using DALLE-2
+      coverImage: coverResponse.data.data[0].url ?? '',
       status: 'success',
       story: story,
-      title: ''
+      title: '',
+      id: '',
+      visibility: 'private',
     }
 
+    // Generate title using story as input
     const titleResponse = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       max_tokens: 20,
@@ -108,8 +118,19 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
 
     if (title)
       output.title = title
+    
+    // Put generated story into firebase
+    const db = admin.firestore()
+    const docRef = db.collection('stories').doc()
+
+    output.id = docRef.id
+    const firebaseResponse = await docRef.set(output)
+
+    if (firebaseResponse)
+      return output
+    else
+      throw new Error('Error writing to database')
   
-    return output
   } catch (error) {
     console.log(error)
     // @ts-ignore

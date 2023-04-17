@@ -29,7 +29,9 @@
 }
 
 .rightSide {
+  display: flex;
   margin: auto 2rem auto auto;
+  gap: 1rem;
 }
 
 .navText {
@@ -37,6 +39,7 @@
   font-size: 1.5rem;
   text-align: center;
   font-weight: 700;
+  color: #000;
 
   &:visited {
     color: #000;

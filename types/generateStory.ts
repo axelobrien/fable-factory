@@ -13,4 +13,6 @@ export type StoryOutput = {
   coverImage: string
   title: string
   status: 'success' | 'error'
+  id: string
+  visibility: 'public' | 'private'
 }

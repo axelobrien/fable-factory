@@ -1,8 +1,11 @@
 import React, { createElement, useEffect, useRef, useState } from 'react'
 import styles from '../styles/storybook.module.scss'
+import ShareModal from './ShareModal'
+import { StoryOutput } from '../types/generateStory'
 
 type Props = {
   rawText: string,
+  story?: StoryOutput,
 }
 
 enum ReadingState {
@@ -12,11 +15,12 @@ enum ReadingState {
   End
 }
 
-function StoryBook({ rawText }: Props) {
+function StoryBook({ rawText, story }: Props) {
   const sentences = rawText.split(/[.?!。！？]\s+(?=[^\p{P}\p{S}\p{Z}\p{C}])/gu) //detects end of sentence
   const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
   const [currentLeftPage, setCurrentLeftPage] = useState(0)
   const [height, setHeight] = useState<string | undefined>(undefined)
+  const [openShareModal, setOpenShareModal] = useState(false)
   const leftPageRef = useRef<HTMLDivElement>(null)
   const rightPageRef = useRef<HTMLDivElement>(null)
 
@@ -111,6 +115,12 @@ function StoryBook({ rawText }: Props) {
             <div className={styles.buttonContainer}>
               <button
                 className={styles.button}
+                onClick={() => setOpenShareModal(true)}
+              >
+                Share
+              </button>
+              <button
+                className={styles.button}
                 onClick={() => setCurrentLeftPage((c) => c !== 0 ? c - 2 : c)}
               >
                 Backward
@@ -122,6 +132,13 @@ function StoryBook({ rawText }: Props) {
                 Forward
               </button>
             </div>
+
+            {openShareModal && (<>
+              <ShareModal
+                story={story}
+                showModal={setOpenShareModal}
+              />
+            </>)}
           </> : <>
               
           </>}
