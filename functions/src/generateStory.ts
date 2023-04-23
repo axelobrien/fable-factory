@@ -3,12 +3,14 @@ import * as admin from 'firebase-admin'
 import { StoryInput, StoryOutput } from '../../types/generateStory'
 import { Configuration } from 'openai'
 import { OpenAIApi } from 'openai/dist/api'
+import { Timestamp } from 'firebase/firestore'
+import { v4 as uuid } from 'uuid'
 
 if (!admin.apps.length)
   admin.initializeApp()
 
 
-const generateStory = functions.https.onCall(async (data: StoryInput, context): Promise<StoryOutput> => {
+const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(async (data: StoryInput, context): Promise<StoryOutput> => {
 
   const errorObject = {
     status: 'error',
@@ -81,20 +83,36 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
       return errorObject
 
     const coverResponse = await openai.createImage({
-      prompt: `${input.prompt}, digital art, book cover, no text`,
+      prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
       n: 1,
-      size: "1024x1024",
+      size: '256x256',
+      response_format: 'b64_json'
     })
+
+    let cover = ''
+
+    if (coverResponse.data.data[0].b64_json) {
+      const bookId = uuid()
+      const coverBuffer = Buffer.from(coverResponse.data.data[0].b64_json, 'base64')
+      await admin.storage().bucket().file(`bookCovers/${bookId}.png`).save(coverBuffer, {
+        metadata: {
+          contentType: 'image/png',
+        }
+      })
+
+      cover = admin.storage().bucket().file(`bookCovers/${bookId}.png`).publicUrl()
+    }
 
     const output: StoryOutput = {
       readingLevel: input.readingLevel,
       language: input.language,
-      coverImage: coverResponse.data.data[0].url ?? '',
+      coverImage: cover,
       status: 'success',
       story: story,
       title: '',
       id: '',
       visibility: 'private',
+      createdAt: new Timestamp(0, 0),
     }
 
     // Generate title using story as input
@@ -121,10 +139,13 @@ const generateStory = functions.https.onCall(async (data: StoryInput, context): 
     
     // Put generated story into firebase
     const db = admin.firestore()
-    const docRef = db.collection('stories').doc()
+    const docRef = db.collection('fables/visibility/private').doc()
 
     output.id = docRef.id
-    const firebaseResponse = await docRef.set(output)
+    const firebaseResponse = await docRef.set({
+      ...output,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    })
 
     if (firebaseResponse)
       return output

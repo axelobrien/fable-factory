@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore'
 import ReadingLevel from './readingLevel'
 
 export type StoryInput = {
@@ -15,4 +16,5 @@ export type StoryOutput = {
   status: 'success' | 'error'
   id: string
   visibility: 'public' | 'private'
+  createdAt: Timestamp
 }

@@ -1,9 +1,11 @@
 @use 'variables.scss' as *;
 
 .container {
-  width: 90%;
-  max-width: 672px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin-bottom: 2rem;
 }
 
 .leftText {
@@ -24,12 +26,13 @@
   font-weight: 700;
 }
 
-.media {
+.image {
   object-fit: cover;
-  width: 110%;
+  width: 20%;
   align-self: center;
-  margin-left: -5%;
   pointer-events: none;
+  margin-top: 1rem;
+  border-radius: 2rem;
 }
 
 .button {
@@ -49,5 +52,11 @@
 }
 
 .storyText {
+  padding: 0;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0;
   padding: 0;
 }

@@ -4,5 +4,9 @@ service firebase.storage {
     match /{allPaths=**} {
       allow read, write: if false;
     }
+
+    match /bookCovers/{cover} {
+      allow read;
+    }
   }
 }

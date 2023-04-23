@@ -1,10 +1,11 @@
 import { httpsCallable } from 'firebase/functions'
-import React, { useState } from 'react'
-import StoryBook from '../../components/StoryBook'
-import { functions } from '../../shared/firebaseConfig'
+import React, { useEffect, useState } from 'react'
+import { db, functions } from '../../shared/firebaseConfig'
 import styles from '../../styles/bookshelf.module.scss'
 import { StoryInput, StoryOutput } from '../../types/generateStory'
-import Head from 'next/head'
+import StoryThumbnail from '../../components/StoryThumbnail'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { CollectionReference, collection, limit, orderBy, query } from 'firebase/firestore'
 
 enum StoryLoadingState {
   Idle,
@@ -17,6 +18,8 @@ function CreateStory() {
   const [storyInput, setStoryInput] = useState<StoryInput>({language: 'es', prompt: '', readingLevel: 'A2'})
   const [story, setStory] = useState<StoryOutput>()
   const [storyLoadingState, setStoryLoadingState] = useState<StoryLoadingState>(StoryLoadingState.Idle)
+  const [fables, fablesLoading, fablesLoadingError] = useCollectionData<StoryOutput>(query<StoryOutput>(collection(db, 'fables/visibility/public') as CollectionReference<StoryOutput>, orderBy('createdAt', 'desc'), limit(12)))
+  // const [fables, setFables] = useState<StoryOutput[]>([])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -48,15 +51,12 @@ function CreateStory() {
   }
 
   return (<>
-    <Head>
-      <title>{story?.title ?? 'New Fable'}</title>
-    </Head>
     <main className={styles.container}>
         <h1 className={styles.header}>
           Explore the Bookshelf
         </h1>
 
-      <form
+      {/* <form
         className={styles.form}
         onSubmit={e => handleSubmit(e)}
       >
@@ -108,18 +108,19 @@ function CreateStory() {
           {storyLoadingState !== StoryLoadingState.Loading ? 'Tell the tale' : 'Loading...'}
         </button>
 
-      </form>
+      </form> */}
 
-      <h2 className={styles.subtitle}>
-        {story?.title}
-      </h2>
+      <div className={styles.stories}>
+        {fables && fables.map((fable) => <>
+          <StoryThumbnail
+            key={fable.id}
+            title={fable.title}
+            image={fable.coverImage}
+            id={fable.id}
+          />
+        </>)}
+      </div>
 
-      {story?.story && (
-        <StoryBook
-          rawText={story.story}
-            // 'Había un pato con unos zapatos muy chéveres que todos los animales de la granja querían tener. Los zapatos eran verde limón y hacían que sus pies parecieran una tormenta. Pero un día un halcón malvado los robó todos los zapatos y los escondió en su nido en las montañas. El pato estaba muy triste sin sus zapatos y se preguntaba cómo podría recuperarlos. Pero pronto se dio cuenta de que podía lograrlo con la ayuda de sus amigos. Fue a ver al caballo, a la vaca y a la oveja y les pidió ayuda. Juntos, el caballo, la vaca y la oveja planearon cómo podrían rescatar los zapatos. Idearon un plan astuto para engañar al halcón y hacer que devolviera los zapatos al pato. Finalmente, llegó el día del gran rescate. El pato, el caballo, la vaca y la oveja fueron a la montaña donde estaba el halcón y, después de un gran lucha, lograron recuperar los zapatos del pato. Todos estaban felices y se sintieron como verdaderos héroes. El pato aprendió que el valor de la amistad y el amor pudo hacer cualquier cosa posible. A partir de ese momento, compartió sus zapatos con los demás animales sin ningún problema.'}
-        />
-      )}
     </main>
   </>)
 }

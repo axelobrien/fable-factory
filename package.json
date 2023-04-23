@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "emulators": "firebase emulators:start",
+    "emulators": "firebase emulators:start --import ./emulatorData",
     "deploy": "firebase deploy"
   },
   "dependencies": {

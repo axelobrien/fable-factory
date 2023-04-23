@@ -11,8 +11,8 @@ function Navbar() {
       </div>
 
       <div className={styles.rightSide}>
-        <a className={styles.navText} href='/bookshelf'>
-          Bookshelf
+        <a className={styles.navText} href='/library'>
+          Library
         </a>
         <a className={styles.navText} href='/create-story'>
           New Fable
