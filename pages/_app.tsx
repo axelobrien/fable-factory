@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 import Head from 'next/head'
 import Script from 'next/script'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin-ext'] })
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (<>

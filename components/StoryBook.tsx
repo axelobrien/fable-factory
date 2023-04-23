@@ -95,23 +95,24 @@ function StoryBook({ rawText, story }: Props) {
             // @ts-ignore
             onPlay={({ target }) => setHeight(target.offsetHeight)}
           />
-          </> : (readingState === ReadingState.Reading) ? <>
-            <img
-              src='/images/open-book.png'
-              className={styles.media}
-              alt='open book'
-              onLoad={(e) => { e.preventDefault() }}
-              height={ height }
-            />
+        </> : (readingState === ReadingState.Reading) ? <>
+            <div className={styles.bookWrapper}>
+              <img
+                src='/images/open-book.png'
+                className={styles.media}
+                alt='open book'
+                onLoad={(e) => { e.preventDefault() }}
+                height={ height }
+              />
 
-            <div className={styles.leftText} ref={leftPageRef}>
-                {sentences[currentLeftPage]}
+              <div className={styles.leftText} ref={leftPageRef}>
+                  {sentences[currentLeftPage]}
+              </div>
+
+              <div className={styles.rightText} ref={rightPageRef}>
+                  {sentences[currentLeftPage + 1]}
+              </div>
             </div>
-
-            <div className={styles.rightText} ref={rightPageRef}>
-                {sentences[currentLeftPage + 1]}
-            </div>
-
             <div className={styles.buttonContainer}>
               <button
                 className={styles.button}

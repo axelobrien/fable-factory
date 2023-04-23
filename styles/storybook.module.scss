@@ -8,20 +8,29 @@
 
 .leftText {
   position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 30%;
-  height: min(35vw, 280px); 
+  top: 14%;
+  left: 12%;
+  width: 35%;
+  height: 60%; 
   font-weight: 700;
+
+  @media (max-width: 550px) {
+    top: 10%;
+    height: 55%;
+  }
 }
 
 .rightText {
   position: absolute;
-  top: 15%;
-  right: 13%;
-  width: 30%;
-  height: min(35vw, 280px);
+  top: 14%;
+  right: 6%;
+  width: 35%;
+  height: 60%;
   font-weight: 700;
+  @media (max-width: 550px) {
+    top: 10%;
+    height: 55%;
+  }
 }
 
 .media {
@@ -50,4 +59,12 @@
 
 .storyText {
   padding: 0;
+}
+
+
+.bookWrapper {
+  object-fit: cover;
+  width: 110%;
+  align-self: center;
+  margin-left: -5%;
 }
