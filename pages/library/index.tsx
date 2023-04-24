@@ -6,6 +6,7 @@ import { StoryInput, StoryOutput } from '../../types/generateStory'
 import StoryThumbnail from '../../components/StoryThumbnail'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { CollectionReference, collection, limit, orderBy, query } from 'firebase/firestore'
+import Head from 'next/head'
 
 enum StoryLoadingState {
   Idle,
@@ -51,9 +52,12 @@ function CreateStory() {
   }
 
   return (<>
+    <Head>
+      <title>Library - Fable Factory</title>
+    </Head>
     <main className={styles.container}>
         <h1 className={styles.header}>
-          Explore the Bookshelf
+          Explore the Library
         </h1>
 
       {/* <form

@@ -85,7 +85,7 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
     const coverResponse = await openai.createImage({
       prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
       n: 1,
-      size: '256x256',
+      size: '1024x1024',
       response_format: 'b64_json'
     })
 
@@ -97,9 +97,11 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
       await admin.storage().bucket().file(`bookCovers/${bookId}.png`).save(coverBuffer, {
         metadata: {
           contentType: 'image/png',
-        }
+        },
+        predefinedAcl: 'publicRead'
       })
 
+      // Store image thats on the server now into a url
       cover = admin.storage().bucket().file(`bookCovers/${bookId}.png`).publicUrl()
     }
 
