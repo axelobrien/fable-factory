@@ -1,17 +1,20 @@
-@use 'variables.scss';  
+@use 'variables.scss';
 
 .main {
   min-height: 100vh;
   margin-bottom: 2rem;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
   @include variables.logo;
   font-size: 7rem;
-  margin-top: 15%;
-  margin-bottom: 0;
+  margin: 0;
   color: white;
-  @media screen and (max-width: 768px) {
+
+  @media screen and (max-width: variables.$small-screen) {
     font-size: 5rem;
   }
 }
@@ -27,31 +30,32 @@
   z-index: -1;
   pointer-events: none;
   
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: variables.$large-screen) {
     height: 50rem;
   }
 }
 
 .firstSection {
   height: 35rem;
-  max-width: 90vw;
+  max-width: 70vw;
   aspect-ratio: 1165 / 896; // aspect of svg
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  margin-top: 5%;
   overflow: hidden;
-  padding-top: 0;
+  gap: 0.5rem;
 
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: variables.$large-screen) {
     height: 40rem;
   }
 }
-
+ 
 .subtitle {
   width: 75%;
   color: white;
   font-size: 1.75rem;
-  margin-top: 0;
+  margin: 0;
   font-weight: 700;
 }
 
@@ -69,27 +73,31 @@
 .bookStackImage {
   max-width: 70%;
   margin-top: 3rem;
+  z-index: -1;
 
-  @media screen and (min-width: 1100px) {
+  // @media screen and (min-width: variables.$medium-screen) {
+  //   position: absolute;
+  //   top: 6rem;
+  //   right: 2rem;
+  //   width: 50%;
+  // }
+
+  @media screen and (min-width: variables.$large-screen) {
     position: absolute;
     top: 6rem;
     right: 2rem;
-    width: 50%;
-  }
-
-  @media screen and (min-width: 1400px) {
-    width: 40%;
+    width: 45%;
   }
 }
 
 .multilingualHeader {
-  display: none;
-  @media screen and (max-width: 1100px) {
-    display: flex;
-    color: black;
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0 1.5rem;
+  display: flex;
+  color: black;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 1.5rem;
+  @media screen and (min-width: variables.$large-screen) {
+    display: none;
   }
 }
 
@@ -100,4 +108,106 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.library {
+  display: flex;
+  position: relative;
+  padding-top: 0;
+  height: 55rem;
+  
+  @media screen and (max-width: variables.$medium-screen) {
+    height: 70rem;
+    flex-direction: column-reverse;
+  }
+
+  @media screen and (min-width: variables.$large-screen) {
+    height: 65rem;
+  }
+}
+
+.libraryBlob {
+  padding: 0;
+  margin: 0;
+  right: 100%;
+  position: absolute;
+  height: 55rem;
+  aspect-ratio: 1039 / 1188; // aspect of svg
+  z-index: -1;
+  pointer-events: none;
+  top: 0;
+  
+  @media screen and (max-width: variables.$medium-screen) {
+    top: -30rem;
+    height: 55rem;
+  }
+  
+  @media screen and (min-width: variables.$large-screen) {
+    height: 65rem;
+  }
+}
+
+.libraryBlobContainer {
+  position: relative;
+  top: 0;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+}
+
+.libraryTextContainer {
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-x: visible;
+
+  position: absolute;
+  right: 0;
+  top: 20%;
+
+  width: min-content;
+  max-width: 90vw;
+  height: max-content;
+  
+  aspect-ratio: 1165 / 896; // aspect of svg 
+
+  padding-top: 0;
+  padding-right: 2rem;
+
+  @media screen and (max-width: variables.$small-screen) {
+    top: 25%
+  }
+
+  @media screen and (min-width: variables.$small-screen) {
+    top: 13%;
+  }
+    
+  @media (min-width: variables.$large-screen) {
+    top: 20%;
+    padding-right: 10rem;
+  }
+}
+
+
+.libraryImage {
+  aspect-ratio: 16 / 9;
+  margin-top: 3rem;
+  object-fit: contain;
+  max-width: 80%;
+  align-self: center;
+
+  @media screen and (max-width: variables.$medium-screen) {
+    margin-top: 15rem;
+  }
+
+  @media screen and (min-width: variables.$medium-screen) {
+    top: 8rem;
+    left: 2rem;
+    width: 55%;
+  }
+
+  @media screen and (min-width: variables.$large-screen) {
+    width: 60%;
+  }
 }

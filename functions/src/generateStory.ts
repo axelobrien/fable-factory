@@ -57,37 +57,44 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
   }
 
   try {
-    // Generate story
-    const storyResponse = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      max_tokens: 500,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
-        },
-        {
-          role: 'system',
-          content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
-        },
-        {
-          role: 'user',
-          content: input.prompt,
-        }
-      ]
-    })
 
+    async function getStoryAndCover() {
+      const rawStory = openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        max_tokens: 500,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
+          },
+          {
+            role: 'system',
+            content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
+          },
+          {
+            role: 'user',
+            content: input.prompt,
+          }
+        ]
+      })
+    
+      const rawCover = openai.createImage({
+        prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
+        n: 1,
+        size: '1024x1024',
+        response_format: 'b64_json'
+      })
+
+      return Promise.all([rawStory, rawCover])
+    }
+
+    // Generate story
+    const [storyResponse, coverResponse] = await getStoryAndCover()
+    
     const story = storyResponse.data.choices[0].message?.content
 
     if (!story)
       return errorObject
-
-    const coverResponse = await openai.createImage({
-      prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
-      n: 1,
-      size: '1024x1024',
-      response_format: 'b64_json'
-    })
 
     let cover = ''
 

@@ -14,10 +14,10 @@ function Index() {
           Fable Factory
         </h1>
 
-        <h3 className={styles.subtitle}>
+        <h2 className={styles.subtitle}>
           Generate & read fables in the language
           you’re learning - for free
-        </h3>
+        </h2>
         
         <a
           href='/create-story'
@@ -45,6 +45,40 @@ function Index() {
           We've got stories in the language you're learning.
         </p>
       </div>
+      <section className={styles.library}>
+        <img
+          className={styles.libraryImage}
+           src='/images/library.png'
+        />
+        <div className={styles.libraryTextContainer}>
+          <h2 className={styles.subtitle}>
+            Check out our
+          </h2>
+
+          <h1 className={styles.logo}>
+            Limitless Library
+          </h1>
+
+          <h2 className={styles.subtitle}>
+            Filled with fables made by people just like you
+          </h2>
+
+          <a
+          href='/library'
+          draggable='false'
+          className={styles.button}
+          >
+            Get Started
+          </a>
+        </div>
+        <div className={styles.libraryBlobContainer}>
+          <img
+            className={styles.libraryBlob}
+            src='/images/library-blob.svg'
+            alt='Top Blob'
+          />
+        </div>
+      </section>
     </main>
   </>)
 }

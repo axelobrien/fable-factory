@@ -4,6 +4,9 @@ $bg-color: #F1F5F9;
 $border-color: #BCC8D1;
 $accent-green: #22C55E;
 $black: #181818;
+$large-screen: 1400px;
+$medium-screen: 1100px;
+$small-screen: 768px;
 
 @mixin logo {
   font-weight: 900;

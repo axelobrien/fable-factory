@@ -56,9 +56,9 @@ function CreateStory() {
       <title>Library - Fable Factory</title>
     </Head>
     <main className={styles.container}>
-        <h1 className={styles.header}>
-          Explore the Library
-        </h1>
+      <h1 className={styles.header}>
+        Explore the Library
+      </h1>
 
       {/* <form
         className={styles.form}
