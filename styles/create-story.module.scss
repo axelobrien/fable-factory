@@ -88,3 +88,15 @@
     @include variables.button-press(in, 1, 0.9)
   }
 }
+
+.loading {
+  width: 90%;
+  max-width: 672px;
+  position: relative;
+}
+.loadingText {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  text-align: center;
+}

@@ -13,6 +13,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Head>
       <link rel="icon" type="image/x-icon" href="/images/favicon.png"/>
     </Head>
+    
+    {/* Google ads */}
+    <Script
+      id='google-ads-import'
+      async
+      src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1118139568662085'
+      crossOrigin='anonymous'
+    />
 
     {/* Google tag (gtag.js) */}
     <Script

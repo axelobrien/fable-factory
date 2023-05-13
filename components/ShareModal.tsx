@@ -32,7 +32,7 @@ function ShareModal({ story, showModal }: Props) {
         <div className={styles.shareContainer}>
           <button
             onClick={(e) => {
-              navigator.clipboard.writeText(`https://fablefactory.co/bookshelf/book/${story?.id}`)
+              navigator.clipboard.writeText(`https://fablefactory.co/library/fable/${story?.id}`)
               const target = e.currentTarget
               const beforeText = 'Copy Link'
               target.innerText = 'Copied!'
@@ -47,7 +47,7 @@ function ShareModal({ story, showModal }: Props) {
           </button>
           
           <a
-            href={`https://twitter.com/intent/tweet?text=I made a fable in ${story?.language}! Read it at https://fablefactory.co/bookshelf/book/${story?.id}`}
+            href={`https://twitter.com/intent/tweet?text=I made a fable in ${story?.language}! Read it at https://fablefactory.co/library/fable/${story?.id}`}
             onClick={() => {
               publishStory()
             }}
@@ -62,7 +62,7 @@ function ShareModal({ story, showModal }: Props) {
           </a>
                 
           <a
-            href={`https://facebook.com/sharer/sharer.php?u=I made a fable in ${story?.language}! Read it at https://fablefactory.co/bookshelf/book/${story?.id}`}
+            href={`https://facebook.com/sharer/sharer.php?u=I made a fable in ${story?.language}! Read it at https://fablefactory.co/library/fable/${story?.id}`}
             target='_blank'
             rel='noopener noreferrer'
             onClick={() => {

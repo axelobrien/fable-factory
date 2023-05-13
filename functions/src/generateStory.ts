@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import { StoryInput, StoryOutput } from '../../types/generateStory'
+import { StoryInput, StoryOutput } from '../types/generateStory'
 import { Configuration } from 'openai'
 import { OpenAIApi } from 'openai/dist/api'
 import { Timestamp } from 'firebase/firestore'
@@ -8,7 +8,6 @@ import { v4 as uuid } from 'uuid'
 
 if (!admin.apps.length)
   admin.initializeApp()
-
 
 const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(async (data: StoryInput, context): Promise<StoryOutput> => {
 
@@ -55,39 +54,38 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
     language: data.language,
     readingLevel: data.readingLevel
   }
+  
+  async function getStoryAndCover() {
+    const rawStory = openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      max_tokens: 500,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
+        },
+        {
+          role: 'system',
+          content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
+        },
+        {
+          role: 'user',
+          content: input.prompt,
+        }
+      ]
+    })
+  
+    const rawCover = openai.createImage({
+      prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
+      n: 1,
+      size: '1024x1024',
+      response_format: 'b64_json'
+    })
+
+    return Promise.all([rawStory, rawCover])
+  }
 
   try {
-
-    async function getStoryAndCover() {
-      const rawStory = openai.createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        max_tokens: 500,
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
-          },
-          {
-            role: 'system',
-            content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
-          },
-          {
-            role: 'user',
-            content: input.prompt,
-          }
-        ]
-      })
-    
-      const rawCover = openai.createImage({
-        prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
-        n: 1,
-        size: '1024x1024',
-        response_format: 'b64_json'
-      })
-
-      return Promise.all([rawStory, rawCover])
-    }
-
     // Generate story
     const [storyResponse, coverResponse] = await getStoryAndCover()
     

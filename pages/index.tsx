@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import React from 'react'
 import styles from '../styles/index.module.scss'
 import Head from 'next/head'
@@ -68,7 +67,7 @@ function Index() {
           draggable='false'
           className={styles.button}
           >
-            Get Started
+            Browse
           </a>
         </div>
         <div className={styles.libraryBlobContainer}>
