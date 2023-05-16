@@ -118,6 +118,7 @@ function CreateStory() {
             We're making your fable now...
           </h1>
           <video
+            className={styles.loadingVideo}
             src='/videos/loading.mp4'
             autoPlay
             loop
@@ -125,7 +126,6 @@ function CreateStory() {
             controls={false}                      
           />
         </div>
-      
       </>)}
 
       {story?.story && (<>

@@ -1,5 +1,5 @@
-import React, { createElement, useEffect, useRef, useState } from 'react'
-import styles from '../styles/storybook.module.scss'
+import React, { useEffect, useRef, useState } from 'react'
+import styles from '../styles/storyBook.module.scss'
 import ShareModal from './ShareModal'
 import { StoryOutput } from '../types/generateStory'
 

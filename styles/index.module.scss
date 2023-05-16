@@ -37,17 +37,17 @@
 
 .firstSection {
   height: 35rem;
-  max-width: 70vw;
   aspect-ratio: 1165 / 896; // aspect of svg
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 2rem 0 0 2rem;
   margin-top: 5%;
   overflow: hidden;
   gap: 0.5rem;
 
   @media screen and (min-width: variables.$large-screen) {
     height: 40rem;
+    max-width: 70vw;
   }
 }
  
@@ -167,19 +167,20 @@
   top: 20%;
 
   width: min-content;
-  max-width: 90vw;
   height: max-content;
   
   aspect-ratio: 1165 / 896; // aspect of svg 
   
   padding-top: 0;
-  padding-right: 2rem;
 
   @media screen and (max-width: variables.$small-screen) {
+    padding-right: 0.5rem;
     top: 25%
   }
 
   @media screen and (min-width: variables.$small-screen) {
+    max-width: 90vw;
+    padding-right: 2rem;
     top: 13%;
   }
     

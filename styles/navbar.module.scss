@@ -1,15 +1,14 @@
-@use 'variables.scss';
+@use 'variables.scss' as variables;
 
 .navbar {
-  position: absolute;
-  display: flex;
-  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
   height: variables.$nav-height;
   background-color: variables.$bg-color;
   border-bottom: 2px variables.$border-color solid;
+
+  display: flex;
 }
 
 .padding {
@@ -18,13 +17,16 @@
 
 .logo {
   @include variables.logo;
-  font-size: 3rem;
-  margin: auto 2rem;
   text-decoration: none;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: variables.$small-screen) {
     font-size: 2.5rem;
-    margin: auto;
+    margin: 0 0 0 1rem;
+  }
+
+  @media screen and (min-width: variables.$small-screen) {
+    font-size: 3rem;
+    margin: auto 2rem;
   }
 }
 
@@ -32,6 +34,10 @@
   display: flex;
   margin: auto 2rem auto auto;
   gap: 1rem;
+
+  @media (max-width: variables.$small-screen) {
+    margin-top: 0.25rem;
+  }
 }
 
 .navText {
@@ -45,7 +51,45 @@
     color: #000;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: variables.$small-screen) {
     display: none;
   }
+}
+
+.navButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+
+  @media screen and (max-width: variables.$small-screen) {
+    display: block;
+    font-size: 2rem;
+    font-family: monospace;
+    margin: auto;
+    text-align: center;
+  }
+
+  @media screen and (min-width: variables.$small-screen) {
+    display: none;
+  }
+}
+
+.modal {
+  background-color: variables.$bg-color;
+  border-radius: variables.$border-radius;
+  z-index: 999;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  padding: 1rem 0;
+}
+
+.modalLink {
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  padding: 0 2rem;
 }
