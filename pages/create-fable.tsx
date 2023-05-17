@@ -22,16 +22,14 @@ function CreateStory() {
     e.preventDefault()
     
     if (storyLoadingState !== StoryLoadingState.Idle && storyLoadingState !== StoryLoadingState.Error)
-    return
-    if (!(storyInput && storyInput.prompt.length > 10 && storyInput.prompt.length < 300)) {
       return
-    }
-
+    
+    if (!(storyInput && storyInput.prompt.length > 10 && storyInput.prompt.length < 300)) 
+      return
+    
     const generateStory = httpsCallable<StoryInput, StoryOutput>(functions, 'generateStory')
     setStoryLoadingState(StoryLoadingState.Loading)
-    console.log('Generating Story...')
     const response = (await generateStory(storyInput)).data // generateStory's return type is an object with only 1 key, data
-    console.log(response)
 
     if (response.status === 'success') {
       setStoryLoadingState(StoryLoadingState.Idle)
@@ -51,6 +49,7 @@ function CreateStory() {
     <Head>
       <title>{story?.title ?? 'New Fable'}</title>
     </Head>
+
     <main className={styles.container}>
         <h1 className={styles.logo}>
           Fable Factory
@@ -73,41 +72,56 @@ function CreateStory() {
         />
 
         <span className={styles.dropdownContainer}>
-          <button
-            className={styles.button}
-            type='submit'
-          >
-            {storyLoadingState !== StoryLoadingState.Loading ? 'Tell the tale' : 'Loading...'}
-          </button>
 
-          <select
-            className={styles.dropdown}
-            defaultValue='Español'
-            onChange={e => handleChange(e, 'language' as keyof StoryInput)}
-          >
-            <option value='Deutsch'>Deutsch</option>
-            <option value='English'>English</option>
-            <option value='Español'>Español</option>
-            <option value='Esperanto'>Esperanto</option>
-            <option value='Français'>Français</option>
-            <option value='Italiano'>Italiano</option>
-            <option value='Русский'>Русский</option>
-            <option value='한국어'>한국어</option>
-            <option value='日本語'>日本語</option>
-          </select>
+          <div>
+            <h3 className={styles.dropdownLabel}>
+              Create fable  
+            </h3>
+            <button
+              className={styles.button}
+              type='submit'
+            >
+              {storyLoadingState !== StoryLoadingState.Loading ? 'Tell the tale' : 'Loading...'}
+            </button>
+          </div>
+          <div>
+            <h3 className={styles.dropdownLabel}>
+              Language
+            </h3>
+            <select
+              className={styles.dropdown}
+              defaultValue='Español'
+              onChange={e => handleChange(e, 'language' as keyof StoryInput)}
+            >
+              <option value='Deutsch'>Deutsch</option>
+              <option value='English'>English</option>
+              <option value='Español'>Español</option>
+              <option value='Esperanto'>Esperanto</option>
+              <option value='Français'>Français</option>
+              <option value='Italiano'>Italiano</option>
+              <option value='Русский'>Русский</option>
+              <option value='한국어'>한국어</option>
+              <option value='日本語'>日本語</option>
+            </select>
+          </div>
 
-          <select
-            className={styles.dropdown}
-            defaultValue='A2'
-            onChange={e => handleChange(e, 'readingLevel' as keyof StoryInput)}
-          >
-            <option value='A1'>First Words (A1)</option>
-            <option value='A2'>Beginner (A2)</option>
-            <option value='B1'>Pre-intermediate (B1)</option>
-            <option value='B2'>Intermediate (B2)</option>
-            <option value='C1'>Advanced (C1)</option>
-            <option value='C2'>Highly Advanced (C2)</option>
-          </select>
+          <div>
+            <h3 className={styles.dropdownLabel}>
+              Reading Level
+            </h3>
+            <select
+              className={styles.dropdown}
+              defaultValue='A2'
+              onChange={e => handleChange(e, 'readingLevel' as keyof StoryInput)}
+            >
+              <option value='A1'>First Words (A1)</option>
+              <option value='A2'>Beginner (A2)</option>
+              <option value='B1'>Pre-intermediate (B1)</option>
+              <option value='B2'>Intermediate (B2)</option>
+              <option value='C1'>Advanced (C1)</option>
+              <option value='C2'>Highly Advanced (C2)</option>
+            </select>
+          </div>
         </span>
 
       </form>

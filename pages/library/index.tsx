@@ -1,7 +1,7 @@
 import { httpsCallable } from 'firebase/functions'
 import React, { useEffect, useState } from 'react'
 import { db, functions } from '../../shared/firebaseConfig'
-import styles from '../../styles/bookshelf.module.scss'
+import styles from '../../styles/library.module.scss'
 import { StoryInput, StoryOutput } from '../../types/generateStory'
 import StoryThumbnail from '../../components/StoryThumbnail'
 import { useCollectionData } from 'react-firebase-hooks/firestore'

@@ -11,6 +11,7 @@
   font-size: 2rem;
   text-align: center;
   margin: 0;
+  color: variables.$black;
 }
 
 .image {
@@ -51,19 +52,24 @@
   padding-right: 0;
   border: none;
   font-family: inherit;
-  margin-top: 1rem;
-  margin-left: 1rem;
   height: max-content;
 }
 
 .dropdownContainer {
   display: flex;
   flex-direction: row-reverse;
+  margin-top: 0.5rem;
+  gap: 2rem;
 
   @media only screen and (max-width: 768px) {
     flex-direction: column-reverse;
     align-items: end;
   }
+}
+
+.dropdownLabel {
+  margin: 0;
+  color: variables.$black;
 }
 
 .button {
@@ -74,8 +80,6 @@
   height: max-content;
   margin-top: auto;
   padding: 0.5rem;
-  margin-left: 1rem;
-  margin-top: 1rem;
   transition: 100ms;
 
   &:hover {

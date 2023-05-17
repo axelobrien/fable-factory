@@ -61,10 +61,10 @@
   font-size: 1.5rem;
   text-align: center;
   font-weight: 700;
-  color: #000;
+  color: variables.$black;
 
   &:visited {
-    color: #000;
+    color: variables.$black;
   }
 
   @media screen and (max-width: variables.$small-screen) {
