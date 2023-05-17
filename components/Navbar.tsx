@@ -15,7 +15,7 @@ function Navbar() {
         <a className={styles.navText} href='/library'>
           Library
         </a>
-        <a className={styles.navText} href='/create-story'>
+        <a className={styles.navText} href='/create-fable'>
           New Fable
         </a>
 
@@ -33,18 +33,27 @@ function Navbar() {
               className={styles.modal}
               onClick={(e) => e.stopPropagation()}
             >
+              <h1 className={styles.modalTitle}>
+                Main Menu
+              </h1>
+
               <a
                 className={styles.modalLink}
+                href='/'
               >
                 Home
               </a>
+
               <a
                 className={styles.modalLink}
+                href='/create-fable'
               >
                 New Fable
               </a>
+              
               <a
                 className={styles.modalLink}
+                href='/library'
               >
                 Library
               </a>

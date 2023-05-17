@@ -19,7 +19,7 @@ function Index() {
         </h2>
         
         <a
-          href='/create-story'
+          href='/create-fable'
           draggable='false'
           className={styles.button}
         >

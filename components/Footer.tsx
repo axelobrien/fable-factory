@@ -31,7 +31,7 @@ function Footer() {
             Useful Links
           </h3>
           <a href='/'>Home</a>
-          <a href='/create-story'>New Fable</a>
+          <a href='/create-fable'>New Fable</a>
           <a href='/library'>Library</a>
         </div>
 

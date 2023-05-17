@@ -2,7 +2,7 @@ import { httpsCallable } from 'firebase/functions'
 import React, { useState } from 'react'
 import StoryBook from '../components/StoryBook'
 import { functions } from '../shared/firebaseConfig'
-import styles from '../styles/create-story.module.scss'
+import styles from '../styles/create-fable.module.scss'
 import { StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 
