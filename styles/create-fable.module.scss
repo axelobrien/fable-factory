@@ -31,6 +31,7 @@
 
 .textarea {
   width: 100%;
+  max-width: 90vw;
   resize: none;
   font: inherit;
   background-color: variables.$bg-color;
@@ -58,7 +59,7 @@
 .dropdownContainer {
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   gap: 2rem;
 
   @media only screen and (max-width: 768px) {
@@ -70,6 +71,10 @@
 .dropdownLabel {
   margin: 0;
   color: variables.$black;
+
+  @media screen and (max-width: variables.$small-screen) {
+    text-align: right;
+  }
 }
 
 .button {

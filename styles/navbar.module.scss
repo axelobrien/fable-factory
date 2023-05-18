@@ -96,7 +96,7 @@
   border-radius: variables.$border-radius;
   z-index: 999;
   // Timing function is elastic
-  animation: modal-pop-in 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+  animation: modal-pop-in 0.25s cubic-bezier(0.175, 0.5, 0.32, 1.2) forwards;
   
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@
 
 @keyframes modal-pop-in {
   0% {
-    transform: translateY(100vh);
+    transform: translateY(50vh);
     opacity: 0;
   }
   100% {
