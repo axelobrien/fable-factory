@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 import Head from 'next/head'
 import Script from 'next/script'
 
-const inter = Inter({ subsets: ['latin-ext'] })
+const inter = Inter({ subsets: ['latin-ext'], fallback: ['Segoe UI'] })
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (<>
@@ -15,12 +15,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     </Head>
     
     {/* Google ads */}
-    <Script
+    {/* <Script
       id='google-ads-import'
       async
       src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1118139568662085'
       crossOrigin='anonymous'
-    />
+    /> */}
 
     {/* Google tag (gtag.js) */}
     <Script
