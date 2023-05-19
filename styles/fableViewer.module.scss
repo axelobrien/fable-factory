@@ -42,19 +42,35 @@
 .page {
   flex: 1;
   background-color: #cec6b8;
+  background-size: 100% 100%;
   border: 10px solid #833840;
   padding: 20px;
   font-weight: 500;
   font-size: 1.5rem;
+  box-shadow: #00000044 0px 10px 20px;
 }
 
 .left {
   transform-origin: right;
-  animation: openPage 2s linear infinite;
+  animation: openPage 2.4s linear forwards;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  z-index: 2;
+  background-image: url('/images/paper-left.png');
 }
 
 .right {
   transform-origin: left;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-image: url('/images/paper-right.png');
+
+  transform: matrix3d(
+    1, -0.02, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1  
+  );
 }
 
 @keyframes openPage {
@@ -67,18 +83,34 @@
     );
     box-shadow: #00000088 -10px 10px 10px;
     background-color: #833840;
+    background-image: none;
     color: #00000000;
     border-style: ridge;
   }
 
-  49% {
+  20% {
+    transform: rotateY(180deg) matrix3d(
+      1, 0.02, 0, 0,
+      0, 1, 0, 0,
+      0, 0, 1, 0,
+      0, 0, 0, 1  
+    );
+    box-shadow: #00000088 -10px 10px 10px;
+    background-color: #833840;
+    background-image: none;
+    color: #00000000;
+    border-style: ridge;
+  }
+
+  59% {
     color: #00000000;
     background-color: #833840;
     border-style: ridge;
     box-shadow: #00000088 -10px 10px 10px;
+    background-image: none;
   }
 
-  50% {
+  60% {
     transform: rotateY(90deg) matrix3d(
       1, 0.05, 0, 0,
       0, 1, 0, 0,
@@ -86,6 +118,7 @@
       0, 0, 0, 1  
     );
     background-color: #cec6b8;
+    background-image: url('/images/paper-left.png');
     color: v.$black;
     border-style: solid;
     box-shadow: none;
@@ -93,7 +126,7 @@
 
   100% {
     transform: rotateY(0deg) matrix3d(
-      1, 0, 0, 0,
+      1, 0.02, 0, 0,
       0, 1, 0, 0,
       0, 0, 1, 0,
       0, 0, 0, 1  
