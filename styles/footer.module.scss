@@ -8,10 +8,13 @@
   padding-bottom: 0;
   bottom: 0;
   display: flex;
-  @media screen and (max-width: 1024px) {
+  color: variables.$border-color;
+  font-weight: 700;
+  gap: 2rem;
+
+  @media screen and (max-width: variables.$medium-screen) {
     flex-direction: column-reverse;
   }
-  gap: 2rem;
 }
 
 .links {
@@ -19,17 +22,16 @@
   flex-direction: column;
   font-weight: 700;
 
-
-  & > h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: variables.$bg-color;
-  }
-
   & > a {
     color: variables.$border-color;
     text-decoration: none;
   }
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: variables.$bg-color;
 }
 
 .aboutUs {
@@ -57,22 +59,52 @@
 .logo {
   @include variables.logo;
   font-size: 4rem;
-  margin: auto 0 auto 2rem;
   text-align: center;
   height: min-content;
+  align-self: center;
+  justify-self: center;
 
-  @media screen and (max-width: 1024px) {
-    align-self: center;
-    margin: 0 0 1rem 0;
+  @media screen and (max-width: variables.$medium-screen) {
+    display: none;
   }
 }
 
 .rightSide {
-  margin: 0 0 1rem auto;
+  margin: 2rem 0 1rem auto;
   width: 50%;
-
-  @media (max-width: 1024px) {
+  display: flex;
+  flex-direction: column;
+  @media (max-width: variables.$medium-screen) {
     width: 90%;
     margin: 0 auto;
   }
+}
+
+.leftSide {
+  width: 51%;
+  display: flex;
+  // flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  margin-left: 1rem;
+  @media (max-width: variables.$medium-screen) {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+.leftSideText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 2rem;
+}
+
+.newsletterSignup {
+  height: 382px;
+  max-width: 354px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  flex: 2;
 }

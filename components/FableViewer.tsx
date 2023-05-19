@@ -118,7 +118,7 @@ function FableViewer({ rawText, story }: Props) {
             if (c < sentences.length - 2)
               return c + 2 // +2 because we want to skip the page thats on the right
             
-            
+            // TODO: close book when we reach the end
             
             return c
           })}
