@@ -43,14 +43,16 @@
   flex: 1;
   background-color: #cec6b8;
   background-size: 100% 100%;
-  border-right:  solid #833840;
+
   font-weight: 500;
   font-size: 1.5rem;
   box-shadow: #00000044 0px 10px 20px;
+  // border: 3px #000 solid;
 }
 
 .left {
   transform-origin: right;
+  border-right: solid #833840;
   padding: 20px 20px 20px 40px;
   animation: openPage 2.4s linear forwards;
   border-top-left-radius: 10px;
@@ -62,6 +64,7 @@
 .right {
   transform-origin: left;
   padding: 20px 40px 20px 20px;
+  border-left: solid #833840;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background-image: url('/images/paper-edge-right.png');

@@ -3,16 +3,15 @@ import { Inter } from 'next/font/google'
 import type { AppProps } from 'next/app'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import Head from 'next/head'
 import Script from 'next/script'
+import DefaultHeadTag from '../components/DefaultHeadTag'
 
 const inter = Inter({ subsets: ['latin-ext'], fallback: ['Segoe UI'] })
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (<>
-    <Head>
-      <link rel="icon" type="image/x-icon" href="/images/favicon.png"/>
-    </Head>
+    {/* TODO: Put this on each page and customize /library/fable/[id] */}
+    <DefaultHeadTag />
     
     {/* Google ads */}
     {/* <Script
