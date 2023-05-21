@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styles from '../styles/index.module.scss'
 import Head from 'next/head'
 
 function Index() {
+  const scrollAnimationRef = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    if (!scrollAnimationRef.current) return
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(styles.show)
+        } else {
+          entry.target.classList.remove(styles.show)
+        }
+      })
+    })
+
+    const hiddenElements = document.querySelectorAll('.hidden')
+    console.log(hiddenElements)
+    hiddenElements.forEach((el) => observer.observe(el))
+  }, [scrollAnimationRef])
+
   return (<>
     <Head>
       <title>Fable Factory</title>
@@ -34,15 +53,22 @@ function Index() {
 
       </section>
       <div className={styles.bookstackContainer}>
+        <h2 className={styles.multilingualHeader}>
+          We use
+          <span
+            className={`hidden ${styles.gradientHighlight}`}
+            ref={scrollAnimationRef}
+          >
+            magic
+          </span>
+          to generate stories in 10 languages
+        </h2>
+
         <img
-          className={styles.bookStackImage}
-          src='/images/many-books.png'
+          className={styles.castleImage}
+          src='/images/castle.png'
           alt='Books showing some of the languages we support'
         />
-
-        <p className={styles.multilingualHeader}>
-          We've got stories in the language you're learning.
-        </p>
       </div>
       <section className={styles.library}>
         <img

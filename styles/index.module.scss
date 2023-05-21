@@ -57,6 +57,10 @@
   font-size: 1.75rem;
   margin: 0;
   font-weight: 700;
+
+  @media screen and (max-width: variables.$large-screen) {
+    max-width: 50rem;
+  }
 }
 
 .button {
@@ -70,21 +74,26 @@
   position: relative;
 }
 
-.bookStackImage {
-  max-width: 70%;
-  margin-top: 3rem;
-  z-index: -1;
+// .bookStackImage {
+//   max-width: 70%;
+//   margin-top: 3rem;
+//   z-index: -1;
 
-  // @media screen and (min-width: variables.$medium-screen) {
-  //   position: absolute;
-  //   top: 6rem;
-  //   right: 2rem;
-  //   width: 50%;
-  // }
+//   @media screen and (min-width: variables.$large-screen) {
+//     position: absolute;
+//     top: 6rem;
+//     right: 2rem;
+//     width: 45%;
+//   }
+// }
+
+.castleImage {
+  max-width: 70%;
+  z-index: -1;
 
   @media screen and (min-width: variables.$large-screen) {
     position: absolute;
-    top: 6rem;
+    top: 4rem;
     right: 2rem;
     width: 45%;
   }
@@ -92,13 +101,36 @@
 
 .multilingualHeader {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   color: black;
-  font-size: 1.75rem;
+  font-size: 3rem;
   font-weight: 700;
   margin: 0 1.5rem;
+
   @media screen and (min-width: variables.$large-screen) {
     display: none;
   }
+}
+
+.gradientHighlight {
+  color: variables.$accent-green;
+  font-size: 5rem;
+  margin: -1rem 0 0 0;
+  
+  background: -webkit-linear-gradient(left,#22C55E, #22BBC5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  transform: translateY(100%);
+  clip-path: inset(0 0 100% 0);
+  transition: all 0.5s;
+}
+
+.show {
+  transform: translateY(0);
+  clip-path: inset(0);
 }
 
 .bookstackContainer {
