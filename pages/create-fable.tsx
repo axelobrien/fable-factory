@@ -1,6 +1,5 @@
 import { httpsCallable } from 'firebase/functions'
 import React, { useState } from 'react'
-import StoryBook from '../components/StoryBook'
 import { functions } from '../shared/firebaseConfig'
 import styles from '../styles/create-fable.module.scss'
 import { StoryInput, StoryOutput } from '../types/generateStory'
@@ -57,7 +56,7 @@ function CreateStory() {
         </h1>
 
         <h2 className={styles.subtitle}>
-          Fables for language learners at all levels
+          Enter your one sentence fable idea
         </h2>
 
       <form

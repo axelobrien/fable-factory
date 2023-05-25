@@ -1,15 +1,44 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import { StoryInput, StoryOutput } from '../types/generateStory'
-import { Configuration } from 'openai'
-import { OpenAIApi } from 'openai/dist/api'
+import { Configuration, CreateChatCompletionResponse } from 'openai'
+import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
 import { Timestamp } from 'firebase/firestore'
 import { v4 as uuid } from 'uuid'
+import ReadingLevel from '../types/readingLevel'
+import type { AxiosResponse } from 'axios'
 
 if (!admin.apps.length)
   admin.initializeApp()
 
-const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(async (data: StoryInput, context): Promise<StoryOutput> => {
+
+function readingLevelToDescription(level: ReadingLevel) {
+  switch (level) {
+    case 'A1':
+      return 'Use extremely basic language that a 4-5 year old could understand, use the simplest possible phrasing of things, and stick to the present tense.'
+    case 'A2':
+      return 'Use simple language that a 7 year old could understand, use simple phrasing of things, with a few slightly more complex words sprinkled in, with a bit of past and future tenses.'
+    case 'B1':
+      return 'Use language that a 10 year old would understand. You can describe things like events and feelings, or desires, and use any tenses'
+    case 'B2':
+      return 'Use advanced vocabulary that might use specific technical language related to the story, but still understandable to someone who is not quite native in the language'
+    case 'C1':
+      return 'Use language that would be understandable to a very advanced learner of this language. Use some slang and cultural references'
+    case 'C2':
+      'Use language that would be understandable to a native speaker of this language. Use slang and cultural references, and use highly complex language and grammar. Give great detail about the events that happen in the story.'
+    default:
+      return `Make the story at the ${level} reading level on the CEFR scale.`
+  }
+}
+
+const storyMessages = [
+  {
+    role: 'system',
+    content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
+  }
+] as ChatCompletionRequestMessage[]
+
+const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(async (data: StoryInput, context): Promise<StoryOutput> => {
 
   const errorObject = {
     status: 'error',
@@ -56,24 +85,53 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
   }
   
   async function getStoryAndCover() {
-    const rawStory = openai.createChatCompletion({
+
+    let rawStory: Promise<AxiosResponse<CreateChatCompletionResponse, any> | StoryOutput>
+
+    storyMessages.push(...[
+      {
+        role: 'system',
+        content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. ${readingLevelToDescription(input.readingLevel)} Do not write the title of the story in your response.`,
+      },
+      {
+        role: 'user',
+        content: input.prompt,
+      }
+    ] as ChatCompletionRequestMessage[])
+    
+
+    console.log('Making complex story')
+    const firstDraftResponse = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       max_tokens: 500,
-      messages: [
-        {
-          role: 'system',
-          content: 'You are an expert in writing children\'s books. You can write them in any language, at any reading level. You accept prompts from users and then write ~20 sentence story books, with a beginning, middle, and end.'
-        },
-        {
-          role: 'system',
-          content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. Write it at the ${input.readingLevel} level. Do not write the title of the story in your response.`,
-        },
-        {
-          role: 'user',
-          content: input.prompt,
-        }
-      ]
+      messages: storyMessages,
     })
+
+    if (!firstDraftResponse.data.choices[0].message?.content) {
+      rawStory = Promise.resolve(errorObject)
+    } else {
+
+      if (input.readingLevel === 'B1' || input.readingLevel === 'B2' || input.readingLevel === 'C1' || input.readingLevel === 'C2') {
+        rawStory = Promise.resolve(firstDraftResponse)
+        console.log('Using complex story')
+
+      }
+
+      rawStory = openai.createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        max_tokens: 500,
+        messages: [{
+          role: 'assistant',
+          content: firstDraftResponse.data.choices[0].message?.content
+        },
+        {
+          role: 'system',
+          content: 'Simplify the language of this story so much that a baby could understand it. Also, DO NOT switch the language of the story. You are NOT translating it, so keep it in the original language. Respond with only the simplified story text. Remember, Simplify, Simplify, Simplify! Don\'t be afraid of changing the plot a bit to make it SIMPLE!',
+        }]
+      })
+    }
+  
+    console.log('Simplified Story')
   
     const rawCover = openai.createImage({
       prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
@@ -88,11 +146,16 @@ const generateStory = functions.runWith({timeoutSeconds: 300}).https.onCall(asyn
   try {
     // Generate story
     const [storyResponse, coverResponse] = await getStoryAndCover()
+
+    if (typeof storyResponse.status !== 'number') {
+      return errorObject
+    }
     
-    const story = storyResponse.data.choices[0].message?.content
+    const story = storyResponse?.data.choices[0].message?.content
 
     if (!story)
       return errorObject
+
 
     let cover = ''
 

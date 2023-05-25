@@ -11,9 +11,10 @@ function Index() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add(styles.show)
-        } else {
-          entry.target.classList.remove(styles.show)
         }
+        // else {
+        //   entry.target.classList.remove(styles.show)
+        // }
       })
     })
 
@@ -42,7 +43,7 @@ function Index() {
           draggable='false'
           className={styles.button}
         >
-          Get Started
+          Start Reading
         </a>
 
         <img
