@@ -45,7 +45,7 @@ function FableViewer({ rawText, story }: Props) {
 
   // Starts at 24 font size then decreases until it fits
   function getFontSizeToFitText(div: HTMLDivElement, text: string) {
-    const maxHeight = div.clientHeight - 40
+    const maxHeight = div.clientHeight - 45 // Actual padding on top & bottom is 20 but the extra 5 is for safety
     const maxWidth = div.clientWidth
     const fontWeight = '700' // Bold
     let fontSize = 24 // initial font size
@@ -53,7 +53,8 @@ function FableViewer({ rawText, story }: Props) {
     const tempDiv = document.createElement('div')
     tempDiv.style.position = 'absolute'
     tempDiv.style.visibility = 'hidden'
-  
+    tempDiv.style.padding = window.getComputedStyle(div).getPropertyValue('padding')
+
     document.body.appendChild(tempDiv)
   
     while (fontSize > 0) {

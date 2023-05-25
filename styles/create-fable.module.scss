@@ -54,11 +54,13 @@
   border: none;
   font-family: inherit;
   height: max-content;
+  -webkit-appearance: caret;
 }
 
 .dropdownContainer {
   display: flex;
   flex-direction: row-reverse;
+  justify-content: center;
   margin-top: 0.25rem;
   gap: 2rem;
 

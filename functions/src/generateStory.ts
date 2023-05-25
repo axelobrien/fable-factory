@@ -101,6 +101,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     
 
     console.log('Making complex story')
+    
     const firstDraftResponse = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       max_tokens: 500,

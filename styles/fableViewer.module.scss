@@ -45,9 +45,10 @@
   background-size: 100% 100%;
 
   font-weight: 500;
-  font-size: 1.5rem;
+  // font-size: 1.5rem;
   box-shadow: #00000044 0px 10px 20px;
   // border: 3px #000 solid;
+
 }
 
 .left {
@@ -59,6 +60,10 @@
   border-bottom-left-radius: 10px;
   z-index: 2;
   background-image: url('/images/paper-edge-left.png');
+
+  @media screen and (max-width: v.$small-screen) {
+    padding: 10px 10px 10px 20px;
+  }
 }
 
 .right {
@@ -75,6 +80,10 @@
     0, 0, 1, 0,
     0, 0, 0, 1  
   );
+
+  @media screen and (max-width: v.$small-screen) {
+    padding: 10px 20px 10px 10px;
+  }
 }
 
 @keyframes openPage {
