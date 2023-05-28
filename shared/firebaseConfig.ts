@@ -3,7 +3,7 @@ import { getAuth, connectAuthEmulator } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 
-let firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDwqQcBJONnDYJlnkg--PGb6ehTbCasNcE",
   authDomain: "fable-factory-3ab69.firebaseapp.com",
   projectId: "fable-factory-3ab69",

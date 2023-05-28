@@ -62,7 +62,7 @@ function Navbar() {
         </>}
       </div>
     </nav>
-    <div className={styles.padding} />
+    {/* <div className={styles.padding} /> */}
   </>)
 }
 

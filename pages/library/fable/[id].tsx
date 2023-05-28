@@ -2,39 +2,24 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import styles from '../../../styles/fable.module.scss'
 import { StoryOutput } from '../../../types/generateStory'
-import StoryBook from '../../../components/StoryBook'
 import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../../shared/firebaseConfig'
 import Head from 'next/head'
 import FableViewer from '../../../components/FableViewer'
+import { GetServerSidePropsContext } from 'next'
+import { adminDb } from '../../../shared/adminFirebaseConfig'
 
-function Book() {
-  const router = useRouter()
-  const { id } = router.query
-  const [story, setStory] = useState<StoryOutput | null>(null)
-
-  useEffect(() => {
-    (async () => {
-      if (!id || typeof id !== 'string'){
-        console.log(id)
-        return
-      }
-      const story = await getDoc(doc(db, 'fables/visibility/public', id))
-      if (!story.exists()) 
-        return
-      
-      setStory(story.data() as StoryOutput ?? null)
-    }
-  )()}, [id])
+function Book({ rawStory }: { rawStory: string | undefined }) {
+  const story = rawStory ? JSON.parse(rawStory) as StoryOutput | undefined : undefined
 
   return (<>
     <Head>
       <title>{story?.title ?? 'New Fable'}</title>
+      
     </Head> 
 
     <main className={styles.container}>
       <h2 className={styles.title}>
-        {story?.title}
+        {story?.title ?? 'Story not found'}
       </h2>
 
       <img
@@ -54,3 +39,28 @@ function Book() {
 }
 
 export default Book
+
+export async function getServerSideProps({ params }: GetServerSidePropsContext)  {
+  const id = typeof params?.id === 'string' ? params.id : null 
+
+  if (!id) {
+    return {
+      props: {
+        story: JSON.stringify({})
+      }
+    }
+  }
+
+  const docRef = await adminDb.doc(`fables/visibility/public/${id}`).get()
+  
+  const story = docRef.exists ? { id: docRef.id, ...docRef.data() } as StoryOutput : null
+  console.log('storyId', story)
+
+  
+  return {
+    props: {
+      rawStory: story ? JSON.stringify(story) : null
+    }  
+  }
+  
+}

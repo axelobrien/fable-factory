@@ -1,4 +1,12 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "queryScope": "COLLECTION_GROUP",
+      "collectionGroup": "public",
+      "fields": [
+        { "fieldPath": "id", "order": "ASCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

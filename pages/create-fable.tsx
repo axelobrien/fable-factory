@@ -56,7 +56,7 @@ function CreateStory() {
         </h1>
 
         <h2 className={styles.subtitle}>
-          Enter your one sentence fable idea
+          Enter your fable idea
         </h2>
 
       <form

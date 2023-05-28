@@ -4,7 +4,7 @@
   @include variables.logo;
   font-size: 5rem;
   text-align: center;
-  margin: 1rem 0 0 0;
+  margin: 0;
 }
 
 .subtitle {
@@ -32,6 +32,7 @@
 .textarea {
   width: 100%;
   max-width: 90vw;
+  margin: 0 auto;
   resize: none;
   font: inherit;
   background-color: variables.$bg-color;
