@@ -14,7 +14,21 @@ function Book({ rawStory }: { rawStory: string | undefined }) {
   return (<>
     <Head>
       <title>{story?.title ?? 'New Fable'}</title>
+      <link rel='icon' type='image/x-icon' href='/images/favicon.png' />
       
+      <meta property='og:title' content={story?.title ?? 'Fable Factory'} key='og:title' />
+      <meta property='og:site_name' content='Fable Factory'key='og:site_name'  />
+      <meta property='og:description' content={`Read this fable for free with Fable Factory!`} key='og:description' /> 
+      <meta property='og:type' content='article' key='og:type' />
+      
+      <meta property='image' content={story?.coverImage ?? '/images/og-image.png'} key='image' />
+      <meta property='og:image' content={story?.coverImage ?? '/images/og-image.png'} key='og:image' />
+      <meta property='og:image:height' content='1080' key='og:image:height' />
+      <meta property='og:image:width' content='1080' key='og:image:width' />
+
+      <meta name='twitter:title' content={story?.title ?? 'Fable Factory'} key='twitter:title' />
+      <meta name='twitter:description' content={`Read this fable for free with Fable Factory!`} key='twitter:description' />
+      <meta name='twitter:image' content={story?.coverImage ?? '/images/og-image.png'} key='twitter:image' />
     </Head> 
 
     <main className={styles.container}>
@@ -52,15 +66,12 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext) 
   }
 
   const docRef = await adminDb.doc(`fables/visibility/public/${id}`).get()
-  
   const story = docRef.exists ? { id: docRef.id, ...docRef.data() } as StoryOutput : null
-  console.log('storyId', story)
 
-  
   return {
     props: {
       rawStory: story ? JSON.stringify(story) : null
-    }  
+    }
   }
   
 }

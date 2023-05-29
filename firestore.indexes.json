@@ -4,7 +4,8 @@
       "queryScope": "COLLECTION_GROUP",
       "collectionGroup": "public",
       "fields": [
-        { "fieldPath": "id", "order": "ASCENDING" }
+        { "fieldPath": "id", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING"}
       ]
     }
   ],
