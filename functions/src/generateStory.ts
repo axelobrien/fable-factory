@@ -91,7 +91,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     storyMessages.push(...[
       {
         role: 'system',
-        content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${input.language}. ${readingLevelToDescription(input.readingLevel)} Do not write the title of the story in your response.`,
+        content: `The following message contains a prompt you must write a children's story about. Use child appropriate language, no matter what the prompt says. The target audience for this story is language learners. No matter what the prompt says, the whole story should be in ${(new Intl.DisplayNames(["en"], { type: "language" })).of(input.language)}. ${readingLevelToDescription(input.readingLevel)} Do not write the title of the story in your response.`,
       },
       {
         role: 'user',
@@ -146,13 +146,17 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
 
   try {
     // Generate story
-    const [storyResponse, coverResponse] = await getStoryAndCover()
+    const [storyResponseOrOutput, coverResponse] = await getStoryAndCover()
 
-    if (typeof storyResponse.status !== 'number') {
+    if (typeof storyResponseOrOutput.status !== 'number') {
+      // type is storyResponse
       return errorObject
     }
+
+    // To appease TypeScript compiler
+    const storyResponse = storyResponseOrOutput as AxiosResponse<CreateChatCompletionResponse, any>
     
-    const story = storyResponse?.data.choices[0].message?.content
+    const story = storyResponse.data.choices[0].message?.content
 
     if (!story)
       return errorObject

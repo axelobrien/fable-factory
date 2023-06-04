@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import styles from '../styles/fableViewer.module.scss'
 import ShareModal from './ShareModal'
 import { StoryOutput } from '../types/generateStory'
 import { httpsCallable } from 'firebase/functions'
 import { functions } from '../shared/firebaseConfig'
+import TranslateRequest, { TranslateResponse } from '../types/translateStory'
 
 type Props = {
   rawText: string,
@@ -19,10 +20,14 @@ enum ReadingState {
 
 function FableViewer({ rawText, story }: Props) {
   const sentences = rawText.split(/[.?!。！？]\s+(?=[^\p{P}\p{S}\p{Z}\p{C}])/gu).filter((s) => s !== ' ') //detects end of sentence
-  const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
-  const [currentLeftPage, setCurrentLeftPage] = useState(0)
-  const [height, setHeight] = useState<string | undefined>(undefined)
+  const [translatedSentences, setTranslatedSentences] = useState((new Array(sentences.length)) as string[])
   const [openShareModal, setOpenShareModal] = useState(false)
+  const [height, setHeight] = useState<string | undefined>(undefined)
+  const [readingState, setReadingState] = useState<ReadingState>(ReadingState.FrontCover)
+  const [currentLeftPageIndex, setCurrentLeftPageIndex] = useState(0)
+
+  const [showLeftTranslation, setShowLeftTranslation] = useState(false)
+  const [showRightTranslation, setShowRightTranslation] = useState(false)
   const leftPageRef = useRef<HTMLDivElement>(null)
   const rightPageRef = useRef<HTMLDivElement>(null)
 
@@ -36,14 +41,14 @@ function FableViewer({ rawText, story }: Props) {
   useEffect(() => {
     if (!leftPageRef.current) return
     const leftDiv = leftPageRef.current
-    const leftFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPage])
+    const leftFontSize = getFontSizeToFitText(leftDiv, sentences[currentLeftPageIndex])
     leftDiv.style.fontSize = leftFontSize + "px"
     
     if (!rightPageRef.current) return
     const rightDiv = rightPageRef.current
-    const rightFontSize = getFontSizeToFitText(rightDiv, sentences[currentLeftPage + 1])
+    const rightFontSize = getFontSizeToFitText(rightDiv, sentences[currentLeftPageIndex + 1])
     rightDiv.style.fontSize = rightFontSize + "px"
-  }, [currentLeftPage, readingState])
+  }, [currentLeftPageIndex, readingState])
 
   // Starts at 24 font size then decreases until it fits
   function getFontSizeToFitText(div: HTMLDivElement, text: string) {
@@ -76,10 +81,37 @@ function FableViewer({ rawText, story }: Props) {
     return fontSize
   }
 
-  async function translatePage(text: string) {
-    const translate = httpsCallable<string, string>(functions, 'translate')
-    const response = (await translate(text)).data // translate's return type is an object with only 1 key, data
+  function navigatorLanguageToGoogleLanguageCode(navigatorLanguage: string): string {
+    const languageCode = navigatorLanguage.split('-')
 
+    // Chinese has 3 dialects that are separate on Google Translate
+    if (languageCode[0] === 'zh') {
+      const variants = ['CN', 'TW', 'HK']
+      const variant = languageCode[languageCode.length - 1]
+      return variants.includes(variant) ? `zh-${variant.toLocaleLowerCase()}` : 'zh'
+    }
+
+    return languageCode[0]
+  }
+
+  async function translatePage(text: string): Promise<string> {
+    if (!story) return text
+    if (story.language === navigatorLanguageToGoogleLanguageCode(navigator.language)) return text
+
+    const translate = httpsCallable<TranslateRequest, TranslateResponse>(functions, 'translate')
+    const response = (await translate({
+      text,
+      from: story.language,
+      to: navigatorLanguageToGoogleLanguageCode(window.navigator.language)
+    })).data // translate's return type is an object with only 1 key, data
+
+    console.log(response)
+    if (response.status === 'ok') {
+      return response.text
+    } else {
+      console.error(response.error)
+      return text
+    }
   }
 
   return (<>
@@ -95,15 +127,31 @@ function FableViewer({ rawText, story }: Props) {
         <div
           className={`${styles.page} ${styles.left}`}
           ref={leftPageRef}
+          onClick={async () => {
+            if (!showLeftTranslation && !translatedSentences[currentLeftPageIndex]) {
+              const newTranslatedSentences = [...translatedSentences]
+              newTranslatedSentences[currentLeftPageIndex] = await translatePage(sentences[currentLeftPageIndex])
+              setTranslatedSentences(newTranslatedSentences)
+            }
+            setShowLeftTranslation((prev) => !prev)
+          }}
         >
-          {sentences[currentLeftPage]}
+          {showLeftTranslation ? translatedSentences[currentLeftPageIndex] ?? 'Loading...' : sentences[currentLeftPageIndex]}
         </div>
 
         <div
           className={`${styles.page} ${styles.right}`}
           ref={rightPageRef}
+          onClick={async () => {
+            if (!showRightTranslation && !translatedSentences[currentLeftPageIndex + 1]) {
+              const newTranslatedSentences = [...translatedSentences]
+              newTranslatedSentences[currentLeftPageIndex + 1] = await translatePage(sentences[currentLeftPageIndex + 1])
+              setTranslatedSentences(newTranslatedSentences)
+            }
+            setShowRightTranslation((prev) => !prev)
+          }}
         >
-          {sentences[currentLeftPage + 1]}
+          {showRightTranslation ? translatedSentences[currentLeftPageIndex + 1] ?? 'Loading...' : sentences[currentLeftPageIndex + 1]}
         </div>
 
       </div>
@@ -117,20 +165,28 @@ function FableViewer({ rawText, story }: Props) {
         </button>
         <button
           className={styles.button}
-          onClick={() => setCurrentLeftPage((c) => c !== 0 ? c - 2 : c)}
+          onClick={() => {
+            setCurrentLeftPageIndex((c) => c !== 0 ? c - 2 : c)
+            setShowLeftTranslation(false)
+            setShowRightTranslation(false)
+          }}
         >
           Backward
         </button>
         <button
           className={styles.button}
-          onClick={() => setCurrentLeftPage((c) => {
-            if (c < sentences.length - 2)
-              return c + 2 // +2 because we want to skip the page thats on the right
-            
-            // TODO: close book when we reach the end
-            
-            return c
-          })}
+          onClick={() => {
+            setShowLeftTranslation(false)
+            setShowRightTranslation(false)
+            setCurrentLeftPageIndex((c) => {
+              if (c < sentences.length - 2)
+                return c + 2 // +2 because we want to skip the page thats on the right
+              
+              // TODO: close book when we reach the end
+              
+              return c
+            })
+          }}
         >
           Forward
         </button>

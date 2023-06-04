@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
 
-const key = require("../misc/serviceKey.json")
+const key = require('../misc/serviceKey.json')
 
 if (key) {
   if (!admin.apps.length) {

@@ -94,16 +94,16 @@ function CreateStory() {
               defaultValue='Español'
               onChange={e => handleChange(e, 'language' as keyof StoryInput)}
             >
-              <option value='Deutsch'>Deutsch</option>
-              <option value='English'>English</option>
-              <option value='Español'>Español</option>
-              <option value='Esperanto'>Esperanto</option>
-              <option value='Français'>Français</option>
-              <option value='Italiano'>Italiano</option>
-              <option value='Русский'>Русский</option>
-              <option value='한국어'>한국어</option>
-              <option value='日本語'>日本語</option>
-              <option value='हिंदी'>हिंदी</option>
+              <option value='de'>Deutsch</option>
+              <option value='en'>English</option>
+              <option value='es'>Español</option>
+              <option value='eo'>Esperanto</option>
+              <option value='fr'>Français</option>
+              <option value='it'>Italiano</option>
+              <option value='ru'>Русский</option>
+              <option value='ko'>한국어</option>
+              <option value='ja'>日本語</option>
+              <option value='hi'>हिंदी</option>
             </select>
           </div>
 
