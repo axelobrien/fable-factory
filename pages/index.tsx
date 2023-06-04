@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from 'react'
 import styles from '../styles/index.module.scss'
 import Head from 'next/head'
 
+import Image from 'next/image'
+import libraryImage from '../public/images/library.png' // This is the only image that doesn't break with next/image
+
 function Index() {
   const scrollAnimationRef = useRef<HTMLSpanElement>(null)
   useEffect(() => {
@@ -48,7 +51,7 @@ function Index() {
         <img
           className={styles.topBlob}
           src='/images/top-blob.svg'
-          alt='Top Blob'
+          alt=''
         />
 
       </section>
@@ -66,14 +69,15 @@ function Index() {
 
         <img
           className={styles.castleImage}
-          src='/images/castle.png'
-          alt='Books showing some of the languages we support'
+          src='images/castle.png'
+          alt=''
         />
       </div>
       <section className={styles.library}>
-        <img
+        <Image
           className={styles.libraryImage}
-           src='/images/library.png'
+          src={libraryImage}
+          alt=''
         />
         <div className={styles.libraryTextContainer}>
           <h2 className={styles.subtitle}>
@@ -100,7 +104,7 @@ function Index() {
           <img
             className={styles.libraryBlob}
             src='/images/library-blob.svg'
-            alt='Top Blob'
+            alt=''
           />
         </div>
       </section>

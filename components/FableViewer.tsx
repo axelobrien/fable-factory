@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import styles from '../styles/fableViewer.module.scss'
 import ShareModal from './ShareModal'
 import { StoryOutput } from '../types/generateStory'
+import { httpsCallable } from 'firebase/functions'
+import { functions } from '../shared/firebaseConfig'
 
 type Props = {
   rawText: string,
@@ -72,6 +74,12 @@ function FableViewer({ rawText, story }: Props) {
     }
     document.body.removeChild(tempDiv)
     return fontSize
+  }
+
+  async function translatePage(text: string) {
+    const translate = httpsCallable<string, string>(functions, 'translate')
+    const response = (await translate(text)).data // translate's return type is an object with only 1 key, data
+
   }
 
   return (<>

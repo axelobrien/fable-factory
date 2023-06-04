@@ -107,7 +107,7 @@
   color: black;
   font-size: 3rem;
   font-weight: 700;
-  margin: 0 1.5rem;
+  margin: 8rem 1.5rem 0 1.5rem;
 
   @media screen and (min-width: variables.$large-screen) {
     display: none;
@@ -170,7 +170,7 @@
   top: 0;
   
   @media screen and (max-width: variables.$medium-screen) {
-    top: -30rem;
+    top: 10rem;
     height: 55rem;
   }
   
@@ -231,7 +231,7 @@
   align-self: center;
 
   @media screen and (max-width: variables.$medium-screen) {
-    margin-top: 15rem;
+    margin-top: 35rem;
   }
 
   @media screen and (min-width: variables.$medium-screen) {
