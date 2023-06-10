@@ -100,7 +100,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     ] as ChatCompletionRequestMessage[])
     
 
-    console.log('Making complex story')
+    console.log(`Making complex story in ${(new Intl.DisplayNames(["en"], { type: "language" })).of(input.language)}`)
     
     const firstDraftResponse = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
@@ -127,7 +127,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
         },
         {
           role: 'system',
-          content: 'Simplify the language of this story so much that a baby could understand it. Also, DO NOT switch the language of the story. You are NOT translating it, so keep it in the original language. Respond with only the simplified story text. Remember, Simplify, Simplify, Simplify! Don\'t be afraid of changing the plot a bit to make it SIMPLE!',
+          content: `Simplify the language of this story so much that a baby could understand it. Also, DO NOT switch the language of the story. You are NOT translating it, so keep it in the original language. Respond with only the simplified story text. Remember, Simplify, Simplify, Simplify! Don't be afraid of changing the plot a bit to make it SIMPLE! And make sure the story has MORE THAN 10 SENTENCES. KEEP THE STORY IN ${(new Intl.DisplayNames(["en"], { type: "language" })).of(input.language)}. ${(new Intl.DisplayNames(["en"], { type: "language" })).of(input.language)} TEXT ONLY`,
         }]
       })
     }

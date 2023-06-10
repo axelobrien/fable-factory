@@ -1,10 +1,11 @@
 import { httpsCallable } from 'firebase/functions'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { functions } from '../shared/firebaseConfig'
 import styles from '../styles/create-fable.module.scss'
 import { StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 import FableViewer from '../components/FableViewer'
+import uniqueItemFromList from '../shared/uniqueItemFromList'
 
 enum StoryLoadingState {
   Idle,
@@ -13,10 +14,19 @@ enum StoryLoadingState {
   Error,
 }
 
+const loadingScreenTextList = [
+  'Generating your fable...',
+  'Polishing your story...',
+  'Warming up the printing press...',
+  'Getting the ink and paper ready...',
+  'Did you know? You can click any page to translate it into your native language!',
+]
+
 function CreateStory() {
-  const [storyInput, setStoryInput] = useState<StoryInput>({language: 'es', prompt: '', readingLevel: 'A2'})
+  const [storyInput, setStoryInput] = useState<StoryInput>({ language: 'es', prompt: '', readingLevel: 'A2' })
   const [story, setStory] = useState<StoryOutput>()
   const [storyLoadingState, setStoryLoadingState] = useState<StoryLoadingState>(StoryLoadingState.Idle)
+  const [storyLoadingText, setStoryLoadingText] = useState<string>(uniqueItemFromList(loadingScreenTextList))
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -45,6 +55,18 @@ function CreateStory() {
     setStoryInput({ ...storyInput, [key]: value })
   }
 
+  useEffect(() => {
+    if (storyLoadingState === StoryLoadingState.Loading) {
+      const timer = setTimeout(() => {
+        setStoryLoadingText(uniqueItemFromList(loadingScreenTextList,storyLoadingText))
+      }, 3500)
+
+      return () => {
+        clearTimeout(timer)
+      }
+    }
+  }, [storyLoadingText, storyLoadingState])
+
   return (<>
     <Head>
       <title>{story?.title ?? 'New Fable'}</title>
@@ -72,7 +94,6 @@ function CreateStory() {
         />
 
         <span className={styles.dropdownContainer}>
-
           <div>
             <h3 className={styles.dropdownLabel}>
               Create fable  
@@ -91,7 +112,7 @@ function CreateStory() {
             
             <select
               className={styles.dropdown}
-              defaultValue='Español'
+              defaultValue='es'
               onChange={e => handleChange(e, 'language' as keyof StoryInput)}
             >
               <option value='de'>Deutsch</option>
@@ -125,14 +146,14 @@ function CreateStory() {
             </select>
           </div>
         </span>
-
       </form>
 
       {storyLoadingState === StoryLoadingState.Loading && (<>
         <div className={styles.loading}>
           <h1 className={styles.loadingText}>
-            We're making your fable now...
+            {storyLoadingText}
           </h1>
+
           <video
             className={styles.loadingVideo}
             src='/videos/loading.mp4'
