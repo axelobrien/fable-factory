@@ -10,12 +10,12 @@
 
 .logo {
   @include variables.logo;
-  font-size: 7rem;
+  // font-size: 7rem;
   margin: 0;
   color: white;
 
   @media screen and (max-width: variables.$small-screen) {
-    font-size: 5rem;
+    font-size: 4rem;
   }
 }
 
@@ -147,10 +147,13 @@
   position: relative;
   padding-top: 0;
   height: 55rem;
-  
+
+  @media screen and (max-width: variables.$small-screen) {
+    flex-direction: column-reverse;
+  }
+
   @media screen and (max-width: variables.$medium-screen) {
     height: 70rem;
-    flex-direction: column-reverse;
   }
 
   @media screen and (min-width: variables.$large-screen) {
@@ -163,14 +166,12 @@
   margin: 0;
   right: 100%;
   position: absolute;
-  height: 55rem;
   aspect-ratio: 1039 / 1188; // aspect of svg
   z-index: -1;
   pointer-events: none;
-  top: 0;
   
   @media screen and (max-width: variables.$medium-screen) {
-    top: 10rem;
+    top: 0rem;
     height: 55rem;
   }
   
@@ -204,13 +205,14 @@
   aspect-ratio: 1165 / 896; // aspect of svg 
   
   padding-top: 0;
-
+  
   @media screen and (max-width: variables.$small-screen) {
+    max-width: 90vw;
     padding-right: 0.5rem;
     top: 25%
   }
 
-  @media screen and (min-width: variables.$small-screen) {
+  @media screen and (max-width: variables.$medium-screen) {
     max-width: 90vw;
     padding-right: 2rem;
     top: 13%;
@@ -232,6 +234,8 @@
 
   @media screen and (max-width: variables.$medium-screen) {
     margin-top: 35rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   @media screen and (min-width: variables.$medium-screen) {
