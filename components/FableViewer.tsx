@@ -34,6 +34,7 @@ function FableViewer({ rawText, story }: Props) {
   useEffect(() => {
     if (rawText.length > 0 && readingState === ReadingState.FrontCover) {
       setReadingState(ReadingState.Beginning)
+      setCurrentLeftPageIndex(0)
     }
   }, [sentences])
 
@@ -123,17 +124,16 @@ function FableViewer({ rawText, story }: Props) {
         className={styles.bookContainer}
         onLoad={(e) => setHeight(`${e.currentTarget.offsetHeight}px`)}
       >
-
         <div
           className={`${styles.page} ${styles.left}`}
           ref={leftPageRef}
           onClick={async () => {
+            setShowLeftTranslation((prev) => !prev)
             if (!showLeftTranslation && !translatedSentences[currentLeftPageIndex]) {
               const newTranslatedSentences = [...translatedSentences]
               newTranslatedSentences[currentLeftPageIndex] = await translatePage(sentences[currentLeftPageIndex])
               setTranslatedSentences(newTranslatedSentences)
             }
-            setShowLeftTranslation((prev) => !prev)
           }}
         >
           {showLeftTranslation ? translatedSentences[currentLeftPageIndex] ?? 'Loading...' : sentences[currentLeftPageIndex]}
@@ -143,17 +143,16 @@ function FableViewer({ rawText, story }: Props) {
           className={`${styles.page} ${styles.right}`}
           ref={rightPageRef}
           onClick={async () => {
+            setShowRightTranslation((prev) => !prev)
             if (!showRightTranslation && !translatedSentences[currentLeftPageIndex + 1]) {
               const newTranslatedSentences = [...translatedSentences]
               newTranslatedSentences[currentLeftPageIndex + 1] = await translatePage(sentences[currentLeftPageIndex + 1])
               setTranslatedSentences(newTranslatedSentences)
             }
-            setShowRightTranslation((prev) => !prev)
           }}
         >
           {showRightTranslation ? translatedSentences[currentLeftPageIndex + 1] ?? 'Loading...' : sentences[currentLeftPageIndex + 1]}
         </div>
-
       </div>
 
       <div className={styles.buttonContainer}>
