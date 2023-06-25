@@ -72,6 +72,22 @@ function CreateStory() {
       <title>{story?.title ?? 'New Fable'}</title>
     </Head>
 
+    <section className={styles.background}>
+      <div className={styles.background}>
+        <img
+          src='https://cdn.pixabay.com/animation/2023/05/06/14/26/14-26-54-417_512.gif'
+          className={styles.cogsRight}
+        />
+      </div>
+
+      <div className={styles.background}>
+        <img
+          src='https://cdn.pixabay.com/animation/2023/05/06/14/26/14-26-54-417_512.gif'
+          className={styles.cogsLeft}
+        />
+      </div>
+    </section>
+
     <main className={styles.container}>
         <h1 className={styles.logo}>
           Fable Factory
@@ -96,7 +112,7 @@ function CreateStory() {
         <span className={styles.dropdownContainer}>
           <div>
             <h3 className={styles.dropdownLabel}>
-              Create fable  
+              Create Fable  
             </h3>
             <button
               className={styles.button}
@@ -160,6 +176,7 @@ function CreateStory() {
             autoPlay
             loop
             muted
+            playsInline
             controls={false}                      
           />
         </div>

@@ -45,7 +45,7 @@ function Index() {
           draggable='false'
           className={styles.button}
         >
-          Start Reading
+          Create Fable
         </a>
 
         <img
