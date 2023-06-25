@@ -12,9 +12,9 @@
   @include variables.logo;
   font-size: 7rem;
   line-height: calc(7rem * 1.2);
-  letter-spacing: -0.2rem;
+  letter-spacing: -0.1rem;
   max-width: max-content;
-  padding-right: 0.2rem; // To fix last letter being cut off
+  padding-right: 0.1rem; // To fix last letter being cut off
   margin: 0;
   color: white;
 
