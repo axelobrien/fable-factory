@@ -10,17 +10,12 @@
   display: flex;
 }
 
-@mixin cogs {
-  width: max-content;
-  height: max-content;
-  z-index: -1;
-}
-
 .cogsRight {
-  @include cogs;
+  @include variables.cogs;
   transform: rotate(-90deg) translate(-10%, 60%);
   margin-right: 0;
   margin-left: auto;
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
 
   @media screen and (max-width: variables.$small-screen){
     display: none;
@@ -28,11 +23,11 @@
 }
 
 .cogsLeft {
-  @include cogs;
+  @include variables.cogs;
   transform: rotate(140deg) translate(20%, 50%);
   margin-left: 0;
   margin-right: auto;
-  filter: brightness(1.05);
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
 
   @media screen and (max-width: variables.$small-screen){
     transform: translate(-55%, 85%) scaleX(-1) rotate(-80deg) ;
@@ -50,7 +45,7 @@
   font-size: 2rem;
   text-align: center;
   margin: 0;
-  color: variables.$black;
+  color: variables.$white;
 }
 
 .image {
@@ -74,7 +69,7 @@
   margin: 0 auto;
   resize: none;
   font: inherit;
-  background-color: variables.$bg-color;
+  background-color: variables.$bg-light;
   border-radius: 0.75rem;
   border: 0.25rem solid variables.$border-color;
 }
@@ -112,7 +107,7 @@
 
 .dropdownLabel {
   margin: 0;
-  color: variables.$black;
+  color: variables.$white;
 
   @media screen and (max-width: variables.$small-screen) {
     text-align: right;
@@ -130,11 +125,11 @@
   transition: 100ms;
 
   &:hover {
-    background-color: variables.$border-color;
+    filter: brightness(1.2) hue-rotate(10deg);
   }
 
   &:active {
-    background-color: variables.$border-color; 
+    filter: brightness(1.2) hue-rotate(10deg); 
     animation: 0.1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
     @include variables.button-press(in, 1, 0.9)
   }
@@ -144,6 +139,7 @@
   width: 90%;
   max-width: 672px;
   position: relative;
+  color: variables.$white;
 }
 
 .loadingText {

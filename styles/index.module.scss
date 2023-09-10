@@ -2,10 +2,45 @@
 
 .main {
   min-height: 100vh;
-  margin-bottom: 2rem;
+  padding-bottom: 2rem;
   gap: 2rem;
   display: flex;
   flex-direction: column;
+  color: #c02929;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+}
+
+.cogsRight {
+  @include variables.cogs;
+  transform: rotate(-90deg) translate(-10%, 60%);
+  margin-right: 0;
+  margin-left: auto;
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+
+  @media screen and (min-width: variables.$small-screen){
+    display: none;
+  }
+}
+ 
+.cogsLeft {
+  @include variables.cogs;
+  transform: rotate(140deg) translate(20%, 50%);
+  margin-left: 0;
+  margin-right: auto;
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+
+  @media screen and (max-width: variables.$small-screen){
+    transform: translate(-55%, 85%) scaleX(-1) rotate(-80deg) ;
+  }
 }
 
 .logo {
@@ -17,6 +52,7 @@
   padding-right: 0.1rem; // To fix last letter being cut off
   margin: 0;
   color: white;
+  z-index: 2;
 
   @media screen and (max-width: variables.$small-screen) {
     font-size: 4rem;
@@ -34,7 +70,12 @@
   aspect-ratio: 1165 / 896; // aspect of svg
   z-index: -1;
   pointer-events: none;
-  
+  display: none;
+
+  @media screen and (min-width: variables.$small-screen) {
+    display: inherit;
+  }
+
   @media screen and (min-width: variables.$large-screen) {
     height: 50rem;
   }
@@ -63,14 +104,22 @@
   line-height: calc(1.75rem * 1.4);
   margin: 0;
   font-weight: 700;
-  
+  z-index: 2;
+
   @media screen and (max-width: variables.$large-screen) {
     max-width: 50rem;
   }
 }
 
+.firstSection > .button {
+  @media screen and (min-width: variables.$small-screen){
+    background-color: #1e0531;
+  }
+}
+
 .button {
   @include variables.button;
+  z-index: 2;
 }
 
 .container {
@@ -95,7 +144,7 @@
 
 .castleImage {
   max-width: 70%;
-  z-index: -1;
+  // z-index: -1;
 
   @media screen and (min-width: variables.$large-screen) {
     position: absolute;
@@ -110,7 +159,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  color: black;
+  color: variables.$white;
   font-size: 3rem;
   font-weight: 700;
   margin: 8rem 1.5rem 0 1.5rem;
@@ -237,6 +286,7 @@
   object-fit: contain;
   max-width: 80%;
   align-self: center;
+  z-index: 2;
 
   @media screen and (max-width: variables.$medium-screen) {
     margin-top: 35rem;

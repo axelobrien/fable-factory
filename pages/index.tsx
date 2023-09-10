@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styles from '../styles/index.module.scss'
 import Head from 'next/head'
-
 import Image from 'next/image'
 import libraryImage from '../public/images/library.png' // This is the only image that doesn't break with next/image
 
@@ -15,6 +14,7 @@ function Index() {
         if (entry.isIntersecting) {
           entry.target.classList.add(styles.show)
         }
+        // Turn on this else statement to make the animation repeat every time the element is scrolled into view
         // else {
         //   entry.target.classList.remove(styles.show)
         // }
@@ -30,6 +30,21 @@ function Index() {
       <title>Fable Factory</title>
     </Head>
     <main className={styles.main}>
+
+      <div className={styles.background}>
+        <img
+          src='https://cdn.pixabay.com/animation/2023/05/06/14/26/14-26-54-417_512.gif'
+          className={styles.cogsRight}
+        />
+      </div>
+
+      <div className={styles.background}>
+        <img
+          src='https://cdn.pixabay.com/animation/2023/05/06/14/26/14-26-54-417_512.gif'
+          className={styles.cogsLeft}
+        />
+      </div>
+
       <section className={styles.firstSection}>
         <h1 className={styles.logo}>
           Fable Factory

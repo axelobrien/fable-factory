@@ -19,6 +19,7 @@ function Footer() {
       window.removeEventListener('resize', setPadding)
     }
   }, [])
+  
   return (<>
     <footer className={styles.background} ref={footerRef}>
       <div className={styles.leftSide}>  

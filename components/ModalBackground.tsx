@@ -8,6 +8,7 @@ interface Props {
 
 function ModalBackground({ children, toggleModal }: Props) {
 
+  // Blur background and disable scrolling when modal is open
   useEffect(() => {
     const htmlElement = document.documentElement
     const blurContainer = document.createElement('div')

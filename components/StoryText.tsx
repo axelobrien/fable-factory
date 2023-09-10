@@ -1,3 +1,6 @@
+// This file is deprecated, but I'm keeping it here for reference
+// Replaced by components/FableViewer.tsx
+
 import React from 'react'
 import styles from '../styles/story-text.module.scss'
 

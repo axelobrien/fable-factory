@@ -1,3 +1,6 @@
+// This file is deprecated, but I'm keeping it here for reference
+// Replaced by components/FableViewer.tsx
+
 import React, { useEffect, useRef, useState } from 'react'
 import styles from '../styles/storyBook.module.scss'
 import ShareModal from './ShareModal'
@@ -30,7 +33,6 @@ function StoryBook({ rawText, story }: Props) {
     }
   }, [sentences])
 
-  
   useEffect(() => {
     if (!leftPageRef.current) return
     const leftDiv = leftPageRef.current

@@ -1,9 +1,12 @@
 $nav-height: 65px;
 $footer-height: 455px;
-$bg-color: #F1F5F9;
+// $bg-color: #F1F5F9;
+$bg-color: #1E0531;
+$bg-light: #F1F5F9;
 $border-color: #BCC8D1;
 $accent-green: #22C55E;
 $black: #181818;
+$white: #F1F5F9;
 $large-screen: 1400px;
 $medium-screen: 1100px;
 $small-screen: 768px;
@@ -19,7 +22,9 @@ $border-radius: 0.75rem;
 }
 
 @mixin button {
-  background-color: $accent-green;
+  // background-color: $accent-green;
+  background-color: #c02929;
+  // border: 0.25rem solid #1e0531;
   font-weight: 700;
   font-size: 1.5rem;
   color: white;
@@ -44,4 +49,10 @@ $border-radius: 0.75rem;
       }
     }
   }
+}
+
+@mixin cogs {
+  width: max-content;
+  height: max-content;
+  z-index: -1;
 }

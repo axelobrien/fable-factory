@@ -26,6 +26,13 @@ function CreateStory({ rawStories }: { rawStories: string }) {
     </Head>
 
     <main className={styles.container}>
+
+      <img
+        className={styles.blob}
+        src='/images/top-blob.svg'
+        alt=''
+      />
+
       <h1 className={styles.header}>
         Explore the Library
       </h1>

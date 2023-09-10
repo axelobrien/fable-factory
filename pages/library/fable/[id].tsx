@@ -32,6 +32,13 @@ function Book({ rawStory }: { rawStory: string | undefined }) {
     </Head> 
 
     <main className={styles.container}>
+
+      <img
+        className={styles.blob}
+        src='/images/top-blob.svg'
+        alt=''
+      />
+
       <h2 className={styles.title}>
         {story?.title ?? 'Story not found'}
       </h2>

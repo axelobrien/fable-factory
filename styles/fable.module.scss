@@ -1,5 +1,26 @@
 @use 'variables.scss' as *;
 
+.blob {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: -95vw;
+  height: 45rem;
+  aspect-ratio: 1165 / 896; // aspect of svg
+  z-index: -1;
+  pointer-events: none;
+  
+  @media screen and (min-width: $small-screen) {
+    left: -50vw;
+  }
+  
+  @media screen and (min-width: $medium-screen) {
+    height: 90%;
+    left: -60%
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -68,6 +89,7 @@
   text-align: center;
   margin: 0;
   padding: 0;
+  color: $white;
 
   @media screen and (max-width: $medium-screen){
     font-size: 2.5rem;

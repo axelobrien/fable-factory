@@ -5,10 +5,12 @@
   left: 0;
   width: 100%;
   height: variables.$nav-height;
-  background-color: variables.$bg-color;
+  background-color: variables.$bg-light;
   border-bottom: 2px variables.$border-color solid;
 
   display: flex;
+  z-index: 9999;
+  position: sticky;
 }
 
 .padding {
@@ -92,7 +94,7 @@
 }
 
 .modal {
-  background-color: variables.$bg-color;
+  background-color: variables.$bg-light;
   border-radius: variables.$border-radius;
   z-index: 999;
   // Timing function is elastic
@@ -143,7 +145,7 @@
   
   &:hover {
     background: -webkit-linear-gradient(left,#22C55E, #22BBC5);
-    color: variables.$bg-color;
+    color: variables.$bg-light;
   }
 }
 

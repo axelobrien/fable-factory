@@ -172,7 +172,7 @@ function CreateStory() {
 
           <video
             className={styles.loadingVideo}
-            src='/videos/loading.mp4'
+            src='/videos/loading dark.mp4'
             autoPlay
             loop
             muted

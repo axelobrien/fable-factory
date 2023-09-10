@@ -38,7 +38,7 @@ function FableViewer({ rawText, story }: Props) {
     }
   }, [sentences])
 
-  
+  // Triggers resetting of font size upon page change
   useEffect(() => {
     if (!leftPageRef.current) return
     const leftDiv = leftPageRef.current
@@ -82,6 +82,7 @@ function FableViewer({ rawText, story }: Props) {
     return fontSize
   }
 
+  // navigator.language is in the format of en-US, but Google Translate uses en
   function navigatorLanguageToGoogleLanguageCode(navigatorLanguage: string): string {
     const languageCode = navigatorLanguage.split('-')
 
@@ -104,7 +105,7 @@ function FableViewer({ rawText, story }: Props) {
       text,
       from: story.language,
       to: navigatorLanguageToGoogleLanguageCode(window.navigator.language)
-    })).data // translate's return type is an object with only 1 key, data
+    })).data // httpsCallable's return type is an object with only 1 key, data
 
     console.log(response)
     if (response.status === 'ok') {
