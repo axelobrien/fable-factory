@@ -1,5 +1,15 @@
 @use 'variables.scss';
 
+.backgroundContainer {
+  // background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fvector-wooden-block-seamless-pattern-cartoon-wooden-texture-vector-id512453704%3Fk%3D6%26m%3D512453704%26s%3D612x612%26w%3D0%26h%3D44vr4Z6ImhFajozIEB5_4G8TFBoiaKbXDAu_ZPbPjuo%3D&f=1&nofb=1&ipt=90c564def168bd05bcffa20dd33184ab88a017fe9cfa3f8567f955a9db79d2a4&ipo=images');
+  // background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fbrick-wall-background-endless-vector-id541118196%3Fk%3D6%26m%3D541118196%26s%3D612x612%26w%3D0%26h%3DOOIbVfZ1TgfJKfhF09qauAWN7vEeboD0F1DTfyxzBOM%3D&f=1&nofb=1&ipt=8fdb6623d789c2d09ce92c9fd95413f23feec856b82b3fe5f239708d201f1292&ipo=images');
+  // background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.pexels.com%2Fphotos%2F1556419%2Fpexels-photo-1556419.jpeg%3Fcs%3Dsrgb%26dl%3Dcastle-brick-old-wall-roman-wall-wall-texture-1556419.jpg%26fm%3Djpg&f=1&nofb=1&ipt=d3ad6b824c8c4d46c630070af0b6511e0c707dcb19f363916638fcae8d641f42&ipo=images');
+  z-index: -999999;
+  background-size: contain;
+  filter: sepia(0.25) brightness(0.6) contrast(1.2);
+
+}
+
 .background {
   position: absolute;
   top: 0;
@@ -15,7 +25,7 @@
   transform: rotate(-90deg) translate(-10%, 60%);
   margin-right: 0;
   margin-left: auto;
-  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg) contrast(2);
 
   @media screen and (max-width: variables.$small-screen){
     display: none;
@@ -27,7 +37,7 @@
   transform: rotate(140deg) translate(20%, 50%);
   margin-left: 0;
   margin-right: auto;
-  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg) contrast(2);
 
   @media screen and (max-width: variables.$small-screen){
     transform: translate(-55%, 85%) scaleX(-1) rotate(-80deg) ;

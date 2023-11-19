@@ -24,7 +24,7 @@
   transform: rotate(-90deg) translate(-10%, 60%);
   margin-right: 0;
   margin-left: auto;
-  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg) contrast(2);
 
   @media screen and (min-width: variables.$small-screen){
     display: none;
@@ -36,7 +36,7 @@
   transform: rotate(140deg) translate(20%, 50%);
   margin-left: 0;
   margin-right: auto;
-  filter: brightness(0.5) sepia(1) hue-rotate(-40deg);
+  filter: brightness(0.5) sepia(1) hue-rotate(-40deg) contrast(2);
 
   @media screen and (max-width: variables.$small-screen){
     transform: translate(-55%, 85%) scaleX(-1) rotate(-80deg) ;
@@ -181,6 +181,7 @@
   transform: translateY(100%);
   clip-path: inset(0 0 100% 0);
   transition: all 0.75s 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition-delay: 0.5s;
 }
 
 .show {
@@ -302,5 +303,56 @@
 
   @media screen and (min-width: variables.$large-screen) {
     width: 60%;
+  }
+}
+
+.libraryScrollerContainer {
+  overflow-x: hidden;
+  width: 2000px;
+  -webkit-mask: linear-gradient(
+    90deg,
+    transparent,
+    white 20%,
+    white 80%,
+    transparent
+  );
+  mask: linear-gradient(90deg, transparent 0vw, white 20vw, white 80vw, transparent 100vw);
+} 
+
+.libraryScroller {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  animation: scroll 40s forwards linear infinite;
+}
+
+.libraryScrollerInner {
+  max-height: 400px;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  text-decoration: none;
+
+}
+
+.libraryScrollerInnerImage {
+  height: 250px;
+  border-radius: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.libraryScrollerInnerTitle { 
+  font-size: 1.25rem;
+  margin: 0;
+  color: variables.$white;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-100% - 8rem));
   }
 }

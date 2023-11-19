@@ -72,7 +72,9 @@ function CreateStory() {
       <title>{story?.title ?? 'New Fable'}</title>
     </Head>
 
-    <section className={styles.background}>
+    <div className={`${styles.background} ${styles.backgroundContainer}`}></div>
+
+    <section className={`${styles.background}`}>
       <div className={styles.background}>
         <img
           src='https://cdn.pixabay.com/animation/2023/05/06/14/26/14-26-54-417_512.gif'
@@ -153,12 +155,12 @@ function CreateStory() {
               defaultValue='A2'
               onChange={e => handleChange(e, 'readingLevel' as keyof StoryInput)}
             >
-              <option value='A1'>First Words (A1)</option>
-              <option value='A2'>Beginner (A2)</option>
-              <option value='B1'>Pre-intermediate (B1)</option>
-              <option value='B2'>Intermediate (B2)</option>
-              <option value='C1'>Advanced (C1)</option>
-              <option value='C2'>Highly Advanced (C2)</option>
+              <option value='A1'>Beginner</option>
+              {/* <option value='A2'>Beginner (A2)</option> */}
+              {/* <option value='B1'>Pre-intermediate (B1)</option> */}
+              <option value='B2'>Intermediate</option>
+              <option value='C2'>Advanced</option>
+              {/* <option value='C2'>Highly Advanced (C2)</option> */}
             </select>
           </div>
         </span>
