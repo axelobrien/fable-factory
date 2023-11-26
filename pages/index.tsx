@@ -3,6 +3,7 @@ import styles from '../styles/index.module.scss'
 import Head from 'next/head'
 import Image from 'next/image'
 import libraryImage from '../public/images/library.png' // This is the only image that doesn't break with next/image
+import Link from 'next/link'
 
 function Index() {
   const scrollAnimationRef = useRef<HTMLSpanElement>(null)
@@ -67,13 +68,13 @@ function Index() {
           you’re learning - for free
         </h2>
         
-        <a
+        <Link
           href='/create-fable'
           draggable='false'
           className={styles.button}
         >
           Create Fable
-        </a>
+        </Link>
 
         <img
           className={styles.topBlob}
@@ -119,13 +120,13 @@ function Index() {
             Filled with fables made by people just like you
           </h2>
 
-          <a
+          <Link
           href='/library'
           draggable='false'
           className={styles.button}
           >
             Browse
-          </a>
+          </Link>
         </div>
         <div className={styles.libraryBlobContainer}>
           <img
@@ -137,7 +138,7 @@ function Index() {
       </section>
       <section className={styles.libraryScrollerContainer}>
         <ul className={styles.libraryScroller} ref={horizontalScrollerRef}>
-          <a className={styles.libraryScrollerInner} href='/library/fable/WNLVcCiKJx5gil8cIX9v'>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/WNLVcCiKJx5gil8cIX9v'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2F9579cf36-6cd4-46a9-8e5b-5f2eb0466eef.png'
@@ -146,18 +147,18 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
             Max, der mutige Vogel
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/JOdthIXVNEr9vifmhCnk'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/JOdthIXVNEr9vifmhCnk'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2Fe0587a7a-d22e-4380-ac13-46a89756df67.png'
               alt=''
             />
             <p className={styles.libraryScrollerInnerTitle}>
-            Kittens' Moon Adventure
+            Kittens&apos; Moon Adventure
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/6QEpnWLBViW62LxVezsY'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/6QEpnWLBViW62LxVezsY'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2F6fde6a47-b4e0-4f40-9587-3671783cc491.png'
@@ -166,8 +167,8 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
             Sparkling Feathers
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/jeG9w7wtL6pBC9FO4sO4'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/jeG9w7wtL6pBC9FO4sO4'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2F57b953db-09ef-419d-bc4b-71578838a364.png'
@@ -176,8 +177,8 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
               La Estrella Brillante
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/lXPaylD0l9NIkGPJ12iH'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/lXPaylD0l9NIkGPJ12iH'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2F4504bfe1-deaf-47cd-90b4-431d07698f7b.png'
@@ -186,18 +187,18 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
               The Joyful Journey
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/VL8B1qt12Qz6HQ8mcm11'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/VL8B1qt12Qz6HQ8mcm11'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2Fccc58fee-13e0-4596-bb9b-48d51cf3084d.png'
               alt=''
             />
             <p className={styles.libraryScrollerInnerTitle}>
-              The Magical Book of Syd's Drawings
+              The Magical Book of Syd&apos;s Drawings
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/9oIt1wPHzRVOalsoTbgr'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/9oIt1wPHzRVOalsoTbgr'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2F2b18c160-3bcd-4344-8d90-b49e53d7d1f8.png'
@@ -206,8 +207,8 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
               La Perdita Bovino
             </p>
-          </a>
-          <a className={styles.libraryScrollerInner} href='/library/fable/xn67hhSUA6V2JZb5K3rS'>
+          </Link>
+          <Link className={styles.libraryScrollerInner} href='/library/fable/xn67hhSUA6V2JZb5K3rS'>
             <img
               className={styles.libraryScrollerInnerImage}
               src='https://storage.googleapis.com/fable-factory-3ab69.appspot.com/bookCovers%2Fd510b153-32b9-46d8-811e-fcada080ab5d.png'
@@ -216,7 +217,7 @@ function Index() {
             <p className={styles.libraryScrollerInnerTitle}>
               Поляна цветов
             </p>
-          </a>
+          </Link>
         </ul>
       </section>
     </main>

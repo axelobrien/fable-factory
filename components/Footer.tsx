@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styles from '../styles/footer.module.scss'
+import Link from 'next/link'
 
 function Footer() {
   const footerRef = useRef<HTMLDivElement>(null)
@@ -28,7 +29,7 @@ function Footer() {
             Check out our newsletter
           </h3>
           <p>
-            We'll never email you more than once a week. We'll send you news about updates to Fable Factory and the best stories made with it!
+            We&apos;ll never email you more than once a week. We&apos;ll send you news about updates to Fable Factory and the best stories made with it!
           </p>
         </div>   
         <iframe
@@ -42,9 +43,9 @@ function Footer() {
           <h3 className={styles.subtitle}>
             Useful Links
           </h3>
-          <a href='/'>Home</a>
-          <a href='/create-fable'>New Fable</a>
-          <a href='/library'>Library</a>
+          <Link href='/'>Home</Link>
+          <Link href='/create-fable'>New Fable</Link>
+          <Link href='/library'>Library</Link>
         </div>
 
         <div className={styles.aboutUs}>

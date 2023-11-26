@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
 import styles from '../styles/navbar.module.scss'
 import ModalBackground from './ModalBackground'
+import Link from 'next/link'
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (<>
     <nav className={styles.navbar}>
-      <a className={styles.logo} href='/'>
+      <Link className={styles.logo} href='/'>
         Fable Factory
-      </a>
+      </Link>
 
       <div className={styles.rightSide}>
-        <a className={styles.navText} href='/library'>
+        <Link className={styles.navText} href='/library'>
           Library
-        </a>
-        <a className={styles.navText} href='/create-fable'>
+        </Link>
+        <Link className={styles.navText} href='/create-fable'>
           New Fable
-        </a>
+        </Link>
 
         <button
           className={styles.navButton}
@@ -37,26 +38,26 @@ function Navbar() {
                 Main Menu
               </h1>
 
-              <a
+              <Link
                 className={styles.modalLink}
                 href='/'
               >
                 Home
-              </a>
+              </Link>
 
-              <a
+              <Link
                 className={styles.modalLink}
                 href='/create-fable'
               >
                 New Fable
-              </a>
+              </Link>
               
-              <a
+              <Link
                 className={styles.modalLink}
                 href='/library'
               >
                 Library
-              </a>
+              </Link>
             </div>
           </ModalBackground>
         </>}

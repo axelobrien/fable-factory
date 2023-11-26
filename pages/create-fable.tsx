@@ -6,6 +6,7 @@ import { StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 import FableViewer from '../components/FableViewer'
 import uniqueItemFromList from '../shared/uniqueItemFromList'
+import languageList from '../shared/languageList'
 
 enum StoryLoadingState {
   Idle,
@@ -130,19 +131,24 @@ function CreateStory() {
             
             <select
               className={styles.dropdown}
-              defaultValue='es'
+
               onChange={e => handleChange(e, 'language' as keyof StoryInput)}
             >
-              <option value='de'>Deutsch</option>
-              <option value='en'>English</option>
               <option value='es'>Español</option>
-              <option value='eo'>Esperanto</option>
+              <option value='en'>English</option>
               <option value='fr'>Français</option>
+              <option value='eo'>Esperanto</option>
+              <option value='de'>Deutsch</option>
               <option value='it'>Italiano</option>
               <option value='ru'>Русский</option>
               <option value='ko'>한국어</option>
               <option value='ja'>日本語</option>
               <option value='hi'>हिंदी</option>
+              {
+                languageList?.map((v) => <>
+                  <option value={v[1]}>{v[0]}</option>
+                </>)
+              }
             </select>
           </div>
 
