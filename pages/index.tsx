@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styles from '../styles/index.module.scss'
+import shared from '../styles/shared.module.scss'
 import Head from 'next/head'
 import Image from 'next/image'
 import libraryImage from '../public/images/library.png' // This is the only image that doesn't break with next/image
@@ -92,7 +93,7 @@ function Index() {
           >
             magic
           </span>
-          to generate stories in 10 languages
+          to generate stories in 134 languages
         </h2>
 
         <img
@@ -221,6 +222,7 @@ function Index() {
         </ul>
       </section>
     </main>
+    <div className={shared.backgroundCircles} />
   </>)
 }
 

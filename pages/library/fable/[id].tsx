@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import styles from '../../../styles/fable.module.scss'
+import shared from '../../../styles/shared.module.scss'
 import { StoryOutput } from '../../../types/generateStory'
 import { doc, getDoc } from 'firebase/firestore'
 import Head from 'next/head'
@@ -30,6 +31,8 @@ function Book({ rawStory }: { rawStory: string | undefined }) {
       <meta name='twitter:description' content={`Read this fable for free with Fable Factory!`} key='twitter:description' />
       <meta name='twitter:image' content={story?.coverImage ?? '/images/og-image.png'} key='twitter:image' />
     </Head> 
+
+    <div className={shared.backgroundCircles} />
 
     <main className={styles.container}>
 

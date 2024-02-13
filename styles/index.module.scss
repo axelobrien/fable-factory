@@ -1,5 +1,6 @@
 @use 'variables.scss';
 
+
 .main {
   min-height: 100vh;
   padding-bottom: 2rem;
@@ -40,6 +41,10 @@
 
   @media screen and (max-width: variables.$small-screen){
     transform: translate(-55%, 85%) scaleX(-1) rotate(-80deg) ;
+  }
+
+  @media screen and (min-width: variables.$small-screen){
+    display: none;
   }
 }
 

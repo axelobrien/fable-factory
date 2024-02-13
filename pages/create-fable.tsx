@@ -2,6 +2,7 @@ import { httpsCallable } from 'firebase/functions'
 import React, { useEffect, useState } from 'react'
 import { functions } from '../shared/firebaseConfig'
 import styles from '../styles/create-fable.module.scss'
+import shared from '../styles/shared.module.scss'
 import { StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 import FableViewer from '../components/FableViewer'
@@ -73,6 +74,7 @@ function CreateStory() {
       <title>{story?.title ?? 'New Fable'}</title>
     </Head>
 
+    <div className={shared.backgroundCircles} />
     <div className={`${styles.background} ${styles.backgroundContainer}`}></div>
 
     <section className={`${styles.background}`}>

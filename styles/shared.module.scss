@@ -1,0 +1,23 @@
+.backgroundCircles { 
+  position: fixed;
+  height: 1000vh;
+  width: 1000vw;
+  top: -400vh;
+  left: -400vw;
+  z-index: -2;
+  background: url("/circle.svg") repeat center/100px 100px;
+  rotate: 14deg;
+  animation: move-circles 40s ease-in-out 0ms infinite alternate-reverse;
+}
+
+@keyframes move-circles {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(200px, 200px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
