@@ -23,7 +23,8 @@ $border-radius: 0.75rem;
 
 @mixin button {
   // background-color: $accent-green;
-  background-color: #c02929;
+  background-color: #3a4baa;
+  border: 1px solid black;
   // border: 0.25rem solid #1e0531;
   font-weight: 700;
   font-size: 1.5rem;

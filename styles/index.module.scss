@@ -17,7 +17,7 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  display: flex;
+
 }
 
 .cogsRight {
@@ -118,7 +118,7 @@
 
 .firstSection > .button {
   @media screen and (min-width: variables.$small-screen){
-    background-color: #1e0531;
+    background-color: #9324d0;
   }
 }
 

@@ -5,17 +5,35 @@
   top: -400vh;
   left: -400vw;
   z-index: -2;
-  background: url("/circle.svg") repeat center/100px 100px;
-  rotate: 14deg;
-  animation: move-circles 40s ease-in-out 0ms infinite alternate-reverse;
+  display: flex;
+    background-image: 
+    // radial-gradient(circle at center, #ffffff0f, #ffffff0f 2px, transparent 2px),
+    linear-gradient(to right, #ffffff04 3px, transparent 3px),
+    linear-gradient(to bottom, #ffffff06 3px, transparent 3px);
+
+  background-size: 50px 50px;
+
+  background-attachment: fixed;
+  background-color: transparent;
+  // background: url("/circle.svg") repeat center/100px 100px;
+  // rotate: 14deg;
+  animation: move-bg 20s linear 0ms infinite forwards;
 }
 
+@keyframes move-bg {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(400px, 0px);
+  }
+}
 @keyframes move-circles {
   0% {
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(200px, 200px);
+    transform: translate(400px, 0px);
   }
   100% {
     transform: translate(0, 0);

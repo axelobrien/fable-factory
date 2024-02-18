@@ -14,12 +14,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <DefaultHeadTag />
     
     {/* Google ads */}
-    {/* <Script
+    <Script
       id='google-ads-import'
       async
       src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1118139568662085'
       crossOrigin='anonymous'
-    /> */}
+    />
 
     {/* Google tag (gtag.js) */}
     <Script
