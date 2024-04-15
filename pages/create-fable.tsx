@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { functions } from '../shared/firebaseConfig'
 import styles from '../styles/create-fable.module.scss'
 import shared from '../styles/shared.module.scss'
-import { StoryInput, StoryOutput } from '../types/generateStory'
+import { StoryEditInput, StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 import FableViewer from '../components/FableViewer'
 import uniqueItemFromList from '../shared/uniqueItemFromList'
@@ -29,6 +29,7 @@ function CreateStory() {
   const [story, setStory] = useState<StoryOutput>()
   const [storyLoadingState, setStoryLoadingState] = useState<StoryLoadingState>(StoryLoadingState.Idle)
   const [storyLoadingText, setStoryLoadingText] = useState<string>(uniqueItemFromList(loadingScreenTextList))
+  const [editMode, setEditMode] = useState(false)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -38,10 +39,18 @@ function CreateStory() {
     
     if (!(storyInput && storyInput.prompt.length > 10 && storyInput.prompt.length < 300)) 
       return
-    
-    const generateStory = httpsCallable<StoryInput, StoryOutput>(functions, 'generateStory')
-    setStoryLoadingState(StoryLoadingState.Loading)
-    const response = (await generateStory(storyInput)).data // generateStory's return type is an object with only 1 key, data
+
+    let response: StoryOutput
+
+    if (editMode && story) {
+      const editStory = httpsCallable<StoryEditInput, StoryOutput>(functions, 'editStory')
+      setStoryLoadingState(StoryLoadingState.Loading)
+      response = (await editStory({...storyInput, currentStory: story})).data // editStory's return type is an object with only 1 key, data
+    } else {
+      const generateStory = httpsCallable<StoryInput, StoryOutput>(functions, 'generateStory')
+      setStoryLoadingState(StoryLoadingState.Loading)
+      response = (await generateStory(storyInput)).data // generateStory's return type is an object with only 1 key, data
+    }
 
     if (response.status === 'success') {
       setStoryLoadingState(StoryLoadingState.Idle)
@@ -98,81 +107,97 @@ function CreateStory() {
           Fable Factory
         </h1>
 
+      {storyLoadingState !== StoryLoadingState.Loading ? <>
         <h2 className={styles.subtitle}>
-          Enter your fable idea
+          {editMode === false ? 'Enter your fable idea' : 'Type what changes you want to your story in the box below'}
         </h2>
 
-      <form
-        className={styles.form}
-        onSubmit={e => handleSubmit(e)}
-      >
-        <textarea
-          className={styles.textarea}
-          placeholder='A dragon and duck become friends after the dragon initially tries to eat the duck'
-          rows={5}
-          maxLength={300}
-          onChange={e => handleChange(e, 'prompt' as keyof StoryInput)}
-        />
+        <form
+          className={styles.form}
+          onSubmit={e => handleSubmit(e)}
+        >
+          <textarea
+            className={styles.textarea}
+            placeholder='A dragon and duck become friends after the dragon initially tries to eat the duck'
+            rows={5}
+            maxLength={300}
+            onChange={e => handleChange(e, 'prompt' as keyof StoryInput)}
+          />
 
-        <span className={styles.dropdownContainer}>
-          <div>
-            <h3 className={styles.dropdownLabel}>
-              Create Fable  
-            </h3>
-            <button
-              className={styles.button}
-              type='submit'
-            >
-              {storyLoadingState !== StoryLoadingState.Loading ? 'Tell the tale' : 'Loading...'}
-            </button>
-          </div>
-          <div>
-            <h3 className={styles.dropdownLabel}>
-              Language
-            </h3>
+          <span className={styles.dropdownContainer}>
+            <div>
+              <h3 className={styles.dropdownLabel}>
+                Create Fable
+              </h3>
+              <button
+                className={styles.button}
+                type='submit'
+              >
+                {/* {editMode === false ? 'Tell the tale' : 'Tell the tale'} */}
+                Tell the tale
+                {/* {storyLoadingState !== StoryLoadingState.Loading ? 'Tell the tale' : 'Loading...'} */}
+              </button>
+            </div>
             
-            <select
-              className={styles.dropdown}
+            {(storyLoadingState === StoryLoadingState.Idle && story) && <>
+              <div>
+                <h3 className={styles.dropdownLabel}>
+                  Editing mode
+                </h3>
+                <button onClick={() => setEditMode((editMode) => !editMode)} className={styles.button} type='button'>
+                  {editMode === false ? 'Enter Edit Mode' : 'Exit Edit Mode'}
+                </button>
+              </div>
+            </>}
+            <div>
+              <h3 className={styles.dropdownLabel}>
+                Language
+              </h3>
+            
+              <select
+                className={styles.dropdown}
 
-              onChange={e => handleChange(e, 'language' as keyof StoryInput)}
-            >
-              <option value='es'>Español</option>
-              <option value='en'>English</option>
-              <option value='fr'>Français</option>
-              <option value='eo'>Esperanto</option>
-              <option value='de'>Deutsch</option>
-              <option value='it'>Italiano</option>
-              <option value='ru'>Русский</option>
-              <option value='ko'>한국어</option>
-              <option value='ja'>日本語</option>
-              <option value='hi'>हिंदी</option>
-              {
-                languageList?.map((v) => <>
-                  <option value={v[1]}>{v[0]}</option>
-                </>)
-              }
-            </select>
-          </div>
+                onChange={e => handleChange(e, 'language' as keyof StoryInput)}
+              >
+                <option value='es'>Español</option>
+                <option value='en'>English</option>
+                <option value='eo'>Esperanto</option>
+                <option value='fr'>Français</option>
+                <option value='de'>Deutsch</option>
+                <option value='it'>Italiano</option>
+                <option value='ru'>Русский</option>
+                <option value='ko'>한국어</option>
+                <option value='ja'>日本語</option>
+                <option value='hi'>हिंदी</option>
+                {
+                  languageList?.map((v) => <>
+                    <option value={v[1]}>{v[0]}</option>
+                  </>)
+                }
+              </select>
+            </div>
 
-          <div>
-            <h3 className={styles.dropdownLabel}>
-              Reading Level
-            </h3>
-            <select
-              className={styles.dropdown}
-              defaultValue='A2'
-              onChange={e => handleChange(e, 'readingLevel' as keyof StoryInput)}
-            >
-              <option value='A1'>Beginner</option>
-              {/* <option value='A2'>Beginner (A2)</option> */}
-              {/* <option value='B1'>Pre-intermediate (B1)</option> */}
-              <option value='B2'>Intermediate</option>
-              <option value='C2'>Advanced</option>
-              {/* <option value='C2'>Highly Advanced (C2)</option> */}
-            </select>
-          </div>
-        </span>
-      </form>
+            <div>
+              <h3 className={styles.dropdownLabel}>
+                Reading Level
+              </h3>
+              <select
+                className={styles.dropdown}
+                defaultValue='A2'
+                onChange={e => handleChange(e, 'readingLevel' as keyof StoryInput)}
+              >
+                <option value='A1'>Beginner</option>
+                {/* <option value='A2'>Beginner (A2)</option> */}
+                {/* <option value='B1'>Pre-intermediate (B1)</option> */}
+                <option value='B2'>Intermediate</option>
+                <option value='C2'>Advanced</option>
+                {/* <option value='C2'>Highly Advanced (C2)</option> */}
+              </select>
+            </div>
+          </span>
+        </form>
+      </>
+        : <></>}
 
       {storyLoadingState === StoryLoadingState.Loading && (<>
         <div className={styles.loading}>

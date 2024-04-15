@@ -8,6 +8,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { CollectionReference, collection, limit, orderBy, query } from 'firebase/firestore'
 import Head from 'next/head'
 import { adminDb } from '../../shared/adminFirebaseConfig'
+import shared from '../../styles/shared.module.scss'
+
 
 enum StoryLoadingState {
   Idle,
@@ -54,6 +56,7 @@ function CreateStory({ rawStories }: { rawStories: string }) {
       </div>
 
     </main>
+    <div className={shared.backgroundCircles} />
   </>)
 }
 

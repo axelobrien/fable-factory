@@ -7,6 +7,13 @@ export type StoryInput = {
   readingLevel: ReadingLevel
 }
 
+export type StoryEditInput = {
+  prompt: string
+  language: string
+  readingLevel: ReadingLevel
+  currentStory: StoryOutput
+}
+
 export type StoryOutput = {
   story: string
   readingLevel: ReadingLevel
