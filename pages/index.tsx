@@ -42,6 +42,7 @@ function Index() {
   return (<>
     <Head>
       <title>Fable Factory</title>
+      <link rel='canonical' href='https://fablefactory.co' />
     </Head>
     <main className={styles.main}>
 

@@ -83,6 +83,14 @@
     color: variables.$black;
   }
 
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: #9324d0;
+  }
+
   @media screen and (max-width: variables.$small-screen) {
     display: none;
   }

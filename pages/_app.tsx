@@ -40,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           gtag('config', 'G-Z0CWRZB0K6 ');`
       }}
     />
+    
     <div className={inter.className}>
       <Navbar />
       <Component {...pageProps} />
