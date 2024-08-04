@@ -9,7 +9,7 @@ import FableViewer from '../components/FableViewer'
 import uniqueItemFromList from '../shared/uniqueItemFromList'
 import languageList from '../shared/languageList'
 
-enum StoryLoadingState {
+export enum StoryLoadingState {
   Idle,
   Loading,
   Loaded,
@@ -60,7 +60,7 @@ function CreateStory() {
     }
   }
 
-  async function handleChange(e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>, key: keyof StoryInput) {
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>, key: keyof StoryInput) {
     e.preventDefault()
     const { value } = e.target
     setStoryInput({ ...storyInput, [key]: value })

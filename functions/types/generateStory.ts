@@ -5,6 +5,7 @@ export type StoryInput = {
   prompt: string
   language: string
   readingLevel: ReadingLevel
+  removeImage?: boolean
 }
 
 export type StoryEditInput = {

@@ -15,6 +15,10 @@
   @media screen and (max-width: variables.$medium-screen) {
     flex-direction: column-reverse;
   }
+
+  * > p {
+    font-weight: normal;
+  }
 }
 
 .links {
@@ -25,6 +29,7 @@
   & > a {
     color: variables.$border-color;
     text-decoration: none;
+    font-weight: normal;
   }
 }
 

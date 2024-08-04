@@ -1,0 +1,60 @@
+@use 'variables.scss' as v;
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - (v.$nav-height + 10rem));
+  padding-bottom: 2rem;
+  padding-top: 8rem;
+}
+
+.header {
+  @include v.logo;
+  font-size: 4rem;
+  line-height: calc(4rem * 1.2);
+  letter-spacing: -0.1rem;
+  max-width: max-content;
+  padding-right: 0.1rem; // To fix last letter being cut off
+  margin: 0;
+  color: white;
+  z-index: 2;
+  text-align: center;
+
+  @media screen and (max-width: v.$small-screen) {
+    font-size: 3rem;
+    line-height: calc(3rem * 1.2);
+  }
+}
+
+.subheading {
+  font-size: 2rem;
+  margin-top: 0;
+  color: white;
+}
+
+.form {
+  width: 90vw;
+  max-width: 40ch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  // 100% - (padding * 2  + border * 2) 
+  width: calc(100% - (1rem + 0.5rem));
+  margin: 0 auto;
+  resize: none;
+  font: inherit;
+  background-color: v.$bg-light;
+  border-radius: 0.75rem;
+  border: 0.25rem solid v.$border-color;
+  padding: 0.5rem;
+}
+
+.loginButton {
+  @include v.button;
+  width: 100%;
+  margin: 0 auto;
+}

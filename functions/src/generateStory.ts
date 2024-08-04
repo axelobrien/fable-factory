@@ -134,7 +134,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
   
     console.log('Simplified Story')
   
-    const rawCover = openai.createImage({
+    const rawCover = data.removeImage ? undefined : openai.createImage({
       prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
       n: 1,
       size: '1024x1024',
@@ -164,7 +164,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
 
     let cover = ''
 
-    if (coverResponse.data.data[0].b64_json) {
+    if (coverResponse?.data && coverResponse?.data?.data[0].b64_json) {
       const bookId = uuid()
       const coverBuffer = Buffer.from(coverResponse.data.data[0].b64_json, 'base64')
       await admin.storage().bucket().file(`bookCovers/${bookId}.png`).save(coverBuffer, {
