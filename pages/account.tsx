@@ -1,21 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { User, getAdditionalUserInfo, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
-import { auth, functions } from '../shared/firebaseConfig'
+import { auth, db, functions } from '../shared/firebaseConfig'
 import Head from 'next/head'
 import DefaultHeadTag from '../components/DefaultHeadTag'
 import shared from '../styles/shared.module.scss'
 import styles from '../styles/account.module.scss'
-import OnboardingQuestion from '../types/onboardingQuestions'
+import OnboardingQuestion, { Key } from '../types/onboardingQuestions'
 import { StoryLoadingState } from './create-fable'
 import { httpsCallable } from 'firebase/functions'
 import { StoryInput, StoryOutput } from '../types/generateStory'
 import FableViewer from '../components/FableViewer'
+import { doc, DocumentSnapshot, getDoc, updateDoc } from 'firebase/firestore'
 
 function Account() {
   const [userData, setUserData] = useState<User | null>(null)
   const [isNewUser, setIsNewUser] = useState(false)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<any>({})
+  // const [currentKey, setCurrentKey] = useState<Key>('name')
   const [storyLoadingState, setStoryLoadingState] = useState<StoryLoadingState>(StoryLoadingState.Idle)
   const [story, setStory] = useState<StoryOutput | undefined>(undefined)
 
@@ -28,6 +30,7 @@ function Account() {
   const questionBank: OnboardingQuestion[] = [
     {
       question: 'What is your name?',
+      key: 'name',
       input:
         <input
           placeholder='Enter your name'
@@ -41,6 +44,7 @@ function Account() {
     },
     {
       question: 'How often would you like to learn?',
+      key: 'target_frequency',
       input:
         <select
           defaultValue={'daily'}
@@ -59,6 +63,7 @@ function Account() {
     },
     {
       question: 'Can we send you notifications to help you with your goals?',
+      key: 'notifications',
       input: <>
         <button
           onClick={() => {
@@ -84,6 +89,7 @@ function Account() {
     },
     {
       question: 'Here\'s your first story, made just for you!',
+      key: 'story',
       input: <>
         {story ?
           <FableViewer
@@ -112,22 +118,32 @@ function Account() {
       }
       // The client SDK will parse the code from the link for you.
       signInWithEmailLink(auth, email ?? '', window.location.href)
-        .then((result) => {
+        .then(async (result) => {
 
           // Clear email from storage.
-          window.localStorage.removeItem('emailForSignIn')
-          // You can access the new user by importing getAdditionalUserInfo
-          // and calling it with result:
-          // getAdditionalUserInfo(result)
-          // You can access the user's profile via:
-          // getAdditionalUserInfo(result)?.profile
-          // You can check if the user is new or existing:
+          // window.localStorage.removeItem('emailForSignIn')
+          // // You can access the new user by importing getAdditionalUserInfo
+          // // and calling it with result:
+          // // getAdditionalUserInfo(result)
+          // // You can access the user's profile via:
+          // // getAdditionalUserInfo(result)?.profile
+          // // You can check if the user is new or existing:
 
-          // [WARNING]
-          // Make sure this doesn't have a not operator when committing!
-          if (getAdditionalUserInfo(result)?.isNewUser) {
-            setIsNewUser(true)
-          }
+          // // [WARNING]
+          // // Make sure this doesn't have a not operator when committing!
+
+          // const userDoc = await getDoc(doc(db, `users/${result.user.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
+          
+          // const userData = (userDoc.data as any as { accountIsSetup: boolean })
+
+          // console.log(userData)
+          // console.log(result.user.uid)
+
+
+          // // if (getAdditionalUserInfo(result)?.isNewUser) {
+          // if (userData.accountIsSetup === false) {
+          //   setIsNewUser(true)
+          // }
         })
         .catch((error) => {
           // Some error occurred, you can inspect the code: error.code
@@ -139,8 +155,23 @@ function Account() {
 
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, () => {
+    const unsubscribe = onAuthStateChanged(auth, async () => {
       setUserData(auth.currentUser)
+
+      if (!auth.currentUser)
+        return
+
+      const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
+          
+      const userData = userDoc.data()
+
+      if (!userData)
+        return
+
+        // if (getAdditionalUserInfo(result)?.isNewUser) {
+        if (userData.accountIsSetup === false) {
+          setIsNewUser(true)
+        }
     })
 
     return () => unsubscribe()
@@ -157,7 +188,8 @@ function Account() {
         language: 'en',
         prompt:  `Make a story where ${answers?.name} is a hero in a medieval tale. Make them fight a dragon and win. Make sure the hero is named ${answers?.name}`,
         readingLevel: 'C2',
-        removeImage: true
+        removeImage: true,
+        attachToUser: true
       })).data // generateStory's return type is an object with only 1 key, data
       setStory(response)
     }
@@ -171,7 +203,7 @@ function Account() {
       <DefaultHeadTag />
     </Head>
     
-    {!isNewUser ?
+    {isNewUser ?
       <>
         <div className={styles.main}>
           {(questionIndex < questionBank.length) ? <>
@@ -184,10 +216,16 @@ function Account() {
             </h2>
 
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault()
-                if (questionIndex < questionBank.length - 1)
+                if (questionIndex < questionBank.length - 1){
                   setQuestionIndex((v) => v + 1)
+                } else {
+                  updateDoc(doc(db, `users/${userData?.uid}`), {
+                    accountIsSetup: true
+                  })
+                  setIsNewUser(false)
+                }
               }}
             >
               {questionBank[questionIndex].input}

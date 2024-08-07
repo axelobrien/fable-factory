@@ -1,4 +1,5 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
@@ -7,6 +8,17 @@ service cloud.firestore {
 
     match /fables/visibility/public/{story} {
       allow read;
+    }
+
+    match /users/{uid} {
+      allow read: if request.auth.uid == uid;
+
+      // Only allows updates to the accountIsSetup property, and it must be a boolean
+      allow update: if (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['accountIsSetup']) &&
+        request.resource.data.accountIsSetup is bool
+      )
+        
     }
   }
 }

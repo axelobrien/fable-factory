@@ -5,8 +5,19 @@ export type StoryInput = {
   prompt: string
   language: string
   readingLevel: ReadingLevel
-  removeImage?: boolean
+  attachToUser: boolean
+  removeImage: boolean
 }
+
+const defaultStoryInput: StoryInput = {
+  language: 'es',
+  prompt: '',
+  readingLevel: 'A2',
+  attachToUser: false,
+  removeImage: false
+}
+
+export { defaultStoryInput }
 
 
 export type StoryEditInput = {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { functions } from '../shared/firebaseConfig'
 import styles from '../styles/create-fable.module.scss'
 import shared from '../styles/shared.module.scss'
-import { StoryEditInput, StoryInput, StoryOutput } from '../types/generateStory'
+import { defaultStoryInput, StoryEditInput, StoryInput, StoryOutput } from '../types/generateStory'
 import Head from 'next/head'
 import FableViewer from '../components/FableViewer'
 import uniqueItemFromList from '../shared/uniqueItemFromList'
@@ -25,7 +25,7 @@ const loadingScreenTextList = [
 ]
 
 function CreateStory() {
-  const [storyInput, setStoryInput] = useState<StoryInput>({ language: 'es', prompt: '', readingLevel: 'A2' })
+  const [storyInput, setStoryInput] = useState<StoryInput>(defaultStoryInput)
   const [story, setStory] = useState<StoryOutput>()
   const [storyLoadingState, setStoryLoadingState] = useState<StoryLoadingState>(StoryLoadingState.Idle)
   const [storyLoadingText, setStoryLoadingText] = useState<string>(uniqueItemFromList(loadingScreenTextList))

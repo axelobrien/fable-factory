@@ -5,7 +5,8 @@ export type StoryInput = {
   prompt: string
   language: string
   readingLevel: ReadingLevel
-  removeImage?: boolean
+  attachToUser: boolean
+  removeImage: boolean
 }
 
 export type StoryEditInput = {
@@ -23,6 +24,7 @@ export type StoryOutput = {
   title: string
   status: 'success' | 'error'
   id: string
+  userId: string | undefined
   visibility: 'public' | 'private'
   createdAt: Timestamp
 }

@@ -164,6 +164,7 @@ const editStory = functions.runWith({timeoutSeconds: 540}).https.onCall(async (d
       title: input.currentStory.title,
       id: input.currentStory.id,
       visibility: 'private',
+      userId: input.currentStory.userId,
       createdAt: new Timestamp(0, 0),
     }
     
