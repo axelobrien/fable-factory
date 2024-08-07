@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import { Translate } from '@google-cloud/translate/build/src/v2'
-import TranslateRequest, { TranslateResponse } from '../types/translate'
+import TranslateRequest, { TranslateResponse } from '../../types/translate'
 require('dotenv').config()
 
 const translateInstance = new Translate({

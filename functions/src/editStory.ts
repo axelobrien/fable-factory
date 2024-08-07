@@ -1,10 +1,10 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import { StoryEditInput, StoryOutput } from '../types/generateStory'
+import { StoryEditInput, StoryOutput } from '../../types/generateStory'
 import { Configuration, CreateChatCompletionResponse } from 'openai'
 import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
 import { Timestamp } from 'firebase/firestore'
-import ReadingLevel from '../types/readingLevel'
+import ReadingLevel from '../../types/readingLevel'
 import type { AxiosResponse } from 'axios'
 
 if (!admin.apps.length)

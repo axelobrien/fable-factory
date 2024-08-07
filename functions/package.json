@@ -12,7 +12,7 @@
   "engines": {
     "node": "16"
   },
-  "main": "lib/src/index.js",
+  "main": "lib/functions/src/index.js",
   "dependencies": {
     "@firebase/firestore": "^3.10.1",
     "@google-cloud/translate": "^7.2.1",

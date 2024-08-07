@@ -15,7 +15,6 @@ const newUser = functions.auth.user().onCreate(async (user) => {
     uid: user.uid,
     accountIsSetup: false,
   })
-
 })
 
 export default newUser

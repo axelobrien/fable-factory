@@ -14,7 +14,7 @@ const defaultStoryInput: StoryInput = {
   prompt: '',
   readingLevel: 'A2',
   attachToUser: false,
-  removeImage: false
+  removeImage: false,
 }
 
 export { defaultStoryInput }
@@ -35,6 +35,7 @@ export type StoryOutput = {
   title: string
   status: 'success' | 'error'
   id: string
-  visibility: 'public' | 'private'
   createdAt: Timestamp
+  visibility: 'public' | 'private'
+  userId: string | null,
 }

@@ -4,7 +4,7 @@ import ShareModal from './ShareModal'
 import { StoryOutput } from '../types/generateStory'
 import { httpsCallable } from 'firebase/functions'
 import { functions } from '../shared/firebaseConfig'
-import TranslateRequest, { TranslateResponse } from '../types/translateStory'
+import TranslateRequest, { TranslateResponse } from '../types/translate'
 
 type Props = {
   rawText: string,

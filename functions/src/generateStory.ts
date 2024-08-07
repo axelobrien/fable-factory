@@ -1,11 +1,11 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import { StoryInput, StoryOutput } from '../types/generateStory'
+import { StoryInput, StoryOutput } from '../../types/generateStory'
 import { Configuration, CreateChatCompletionResponse } from 'openai'
 import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
 import { Timestamp } from 'firebase/firestore'
 import { v4 as uuid } from 'uuid'
-import ReadingLevel from '../types/readingLevel'
+import ReadingLevel from '../../types/readingLevel'
 import type { AxiosResponse } from 'axios'
 
 if (!admin.apps.length)
@@ -190,7 +190,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
       story: story,
       title: '',
       id: '',
-      userId: (input.attachToUser && uid) ? uid : undefined,
+      userId: (input.attachToUser && uid) ? uid : null,
       visibility: 'private',
       createdAt: new Timestamp(0, 0),
     }
