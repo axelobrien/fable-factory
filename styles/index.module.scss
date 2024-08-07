@@ -184,6 +184,10 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
+  
+}
+
+.slideUpAnimation {
   transform: translateY(100%);
   clip-path: inset(0 0 100% 0);
   transition: all 0.75s 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);

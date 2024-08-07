@@ -1,16 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { User, getAdditionalUserInfo, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
-import { auth, db, functions } from '../shared/firebaseConfig'
 import Head from 'next/head'
-import DefaultHeadTag from '../components/DefaultHeadTag'
-import shared from '../styles/shared.module.scss'
-import styles from '../styles/account.module.scss'
+
+import { httpsCallable } from 'firebase/functions'
+import { User, getAdditionalUserInfo, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
+import { doc, DocumentSnapshot, getDoc, updateDoc } from 'firebase/firestore'
+
+import { auth, db, functions } from '../shared/firebaseConfig'
+
+import { StoryInput, StoryOutput } from '../types/generateStory'
 import OnboardingQuestion, { Key } from '../types/onboardingQuestions'
 import { StoryLoadingState } from './create-fable'
-import { httpsCallable } from 'firebase/functions'
-import { StoryInput, StoryOutput } from '../types/generateStory'
+
+import DefaultHeadTag from '../components/DefaultHeadTag'
 import FableViewer from '../components/FableViewer'
-import { doc, DocumentSnapshot, getDoc, updateDoc } from 'firebase/firestore'
+
+import shared from '../styles/shared.module.scss'
+import styles from '../styles/account.module.scss'
 
 function Account() {
   const [userData, setUserData] = useState<User | null>(null)
@@ -44,13 +49,13 @@ function Account() {
     },
     {
       question: 'How often would you like to learn?',
-      key: 'target_frequency',
+      key: 'targetFrequency',
       input:
         <select
           defaultValue={'daily'}
           className={styles.dropdown}
           onChange={(e) => {
-            updateAnswers(e, 'target_frequency')
+            updateAnswers(e, 'targetFrequency')
           }}
         >
           <option value='daily'>

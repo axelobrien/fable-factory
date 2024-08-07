@@ -53,7 +53,7 @@ function Footer() {
             About Us
           </h3>
           <p>
-            Fable Factory is an attempt to aid language learners with the challenge of finding reading material in their target language by writing content at their reading level.
+            Fable Factory is a tool made to aid language learners with the challenge of finding reading material in their target language by writing content at their reading level. It has since been used all over the world in dozens of countries, supporting 134 languages.
           </p>
         </div>
         

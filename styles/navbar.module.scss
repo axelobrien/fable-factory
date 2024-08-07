@@ -6,8 +6,8 @@
   width: 100%;
   height: variables.$nav-height;
   background: #F1F5F930;
-  background: linear-gradient(to left, #22C55E80 0%, #22BBC580 100%);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(to left, #22C55E6d 0%, #22BBC56d 100%);
+  backdrop-filter: blur(5px);
   
   border-bottom: 2px variables.$border-color solid;
 
@@ -91,7 +91,7 @@
   }
 
   &:active {
-    color: #9324d0;
+    color: variables.$accent-green;
   }
 
   @media screen and (max-width: variables.$small-screen) {
@@ -104,6 +104,7 @@
   border: none;
   cursor: pointer;
   outline: none;
+  color: variables.$white;
 
   @media screen and (max-width: variables.$small-screen) {
     display: block;

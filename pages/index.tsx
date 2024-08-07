@@ -61,7 +61,7 @@ function Index() {
       </div>
 
       <section className={styles.firstSection}>
-        <h1 className={styles.logo}>
+        <h1 className={`${styles.logo} ${styles.slideUpAnimation} hidden`}>
           Fable Factory
         </h1>
 
@@ -89,7 +89,7 @@ function Index() {
         <h2 className={styles.multilingualHeader}>
           We use
           <span
-            className={`hidden ${styles.gradientHighlight}`}
+            className={`hidden ${styles.gradientHighlight} ${styles.slideUpAnimation}`}
             ref={scrollAnimationRef}
           >
             magic
@@ -114,7 +114,7 @@ function Index() {
             Check out our
           </h2>
 
-          <h1 className={styles.logo}>
+          <h1 className={`${styles.logo} ${styles.slideUpAnimation} hidden`}>
             Limitless Library
           </h1>
 

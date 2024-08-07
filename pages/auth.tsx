@@ -5,24 +5,32 @@ import styles from '../styles/auth.module.scss'
 import Head from 'next/head'
 import { auth } from '../shared/firebaseConfig'
 import DefaultHeadTag from '../components/DefaultHeadTag'
+import { isProduction } from '../shared/clientSharedVariables'
+import EmailAuthState from '../types/emailAuthState'
 
 function Auth() {
   const [email, setEmail] = useState("")
+  const [emailAuthState, setEmailAuthState] = useState<EmailAuthState>(EmailAuthState.Idle)
     
   async function login(e: React.FormEvent<HTMLFormElement>) {
 
     try {
       const actionCodeSettings = {
-        url: 'http://localhost:3000/account',
+        url: isProduction ? 'https://fablefactory.co/account' : 'http://localhost:3000/account',
         handleCodeInApp: true // For some reason this has to be here
       }
+
+      setEmailAuthState(EmailAuthState.Pending)
 
       await sendSignInLinkToEmail(auth, email, actionCodeSettings)
       window.localStorage.setItem('emailForSignIn', email)
 
+      setEmailAuthState(EmailAuthState.Success)
+      setTimeout(() => setEmailAuthState(EmailAuthState.Idle), 30 * 1000)
     } catch (error: any) {
       console.error(error.code)
       console.error(error.message)
+      setEmailAuthState(EmailAuthState.Error)
     }
   }
 
@@ -63,6 +71,14 @@ function Auth() {
           Continue
         </button>
       </form>
+
+      {emailAuthState === EmailAuthState.Pending ? <>
+        <p className={styles.statusText}>Sending login link to your email ({email})...</p>
+      </> : emailAuthState === EmailAuthState.Success ? <>
+        <p className={styles.statusText}>Check your email ({email}) for a link to login!</p>
+      </> : (emailAuthState === EmailAuthState.Error && <>
+        <p className={styles.statusText}>Unfortunately, there was an error sending you a login email. Please try again later</p>
+      </>)}
 
       <div className={styles.features}>
 
