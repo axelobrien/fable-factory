@@ -163,7 +163,7 @@ function Account() {
     const unsubscribe = onAuthStateChanged(auth, async () => {
       setUserData(auth.currentUser)
 
-      if (!auth.currentUser)
+      if (!auth.currentUser || !auth.currentUser.uid)
         return
 
       const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
