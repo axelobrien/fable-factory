@@ -159,23 +159,28 @@ function FableViewer({ rawText, story }: Props) {
       <div className={styles.buttonContainer}>
         <button
           className={styles.button}
-          onClick={() => setOpenShareModal(true)}
+          onClick={(e) => {
+            e.preventDefault()
+            setOpenShareModal(true)
+          }}
         >
           Share
         </button>
         <button
           className={styles.button}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault()
             setCurrentLeftPageIndex((c) => c !== 0 ? c - 2 : c)
             setShowLeftTranslation(false)
             setShowRightTranslation(false)
           }}
         >
-          Backward
+          Previous Page
         </button>
         <button
           className={styles.button}
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault()
             setShowLeftTranslation(false)
             setShowRightTranslation(false)
             setCurrentLeftPageIndex((c) => {
@@ -188,7 +193,7 @@ function FableViewer({ rawText, story }: Props) {
             })
           }}
         >
-          Forward
+          Next Page
         </button>
       </div>
 

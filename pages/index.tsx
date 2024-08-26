@@ -101,11 +101,13 @@ function Index() {
           className={styles.castleImage}
           src='images/castle.png'
           alt=''
+          draggable={false}
         />
       </div>
       <section className={styles.library}>
         <Image
           className={styles.libraryImage}
+          draggable={false}
           src={libraryImage}
           alt=''
         />

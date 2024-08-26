@@ -8,7 +8,7 @@ import DefaultHeadTag from '../components/DefaultHeadTag'
 import { isProduction } from '../shared/clientSharedVariables'
 import EmailAuthState from '../types/emailAuthState'
 
-function Auth() {
+function Login() {
   const [email, setEmail] = useState("")
   const [emailAuthState, setEmailAuthState] = useState<EmailAuthState>(EmailAuthState.Idle)
     
@@ -37,7 +37,7 @@ function Auth() {
   return (<>
     <Head>
       <title>Login to Fable Factory</title>
-      <link rel='canonical' href='https://fablefactory.co/auth' />
+      <link rel='canonical' href='https://fablefactory.co/login' />
       <DefaultHeadTag />
     </Head>
     <div className={styles.main}>
@@ -88,4 +88,4 @@ function Auth() {
   </>)
 }
 
-export default Auth
+export default Login

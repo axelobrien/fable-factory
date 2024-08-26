@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Head from 'next/head'
 
 import { httpsCallable } from 'firebase/functions'
-import { User, getAdditionalUserInfo, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
+import { User, getAdditionalUserInfo, getIdToken, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
 import { doc, DocumentSnapshot, getDoc, updateDoc } from 'firebase/firestore'
+
+import Cookies from 'js-cookie'
 
 import { auth, db, functions } from '../shared/firebaseConfig'
 
@@ -124,7 +126,10 @@ function Account() {
       // The client SDK will parse the code from the link for you.
       signInWithEmailLink(auth, email ?? '', window.location.href)
         .then(async (result) => {
-
+          
+          const token = await result.user.getIdToken(true)
+          
+          Cookies.set('token', token, {secure: true, sameSite: 'strict'})
           // Clear email from storage.
           // window.localStorage.removeItem('emailForSignIn')
           // // You can access the new user by importing getAdditionalUserInfo
@@ -163,20 +168,31 @@ function Account() {
     const unsubscribe = onAuthStateChanged(auth, async () => {
       setUserData(auth.currentUser)
 
-      if (!auth.currentUser || !auth.currentUser.uid)
+      if (auth && auth.currentUser?.uid === undefined) {
+        document.location.search = ''
+        document.location.pathname = '/login'
         return
+      }
 
-      const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
+      if (!auth.currentUser || !auth.currentUser.uid) 
+        return
+    
+      try {
+        const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
           
-      const userData = userDoc.data()
+        const userData = userDoc?.data()
 
-      if (!userData)
-        return
-
+        if (!userData) {
+          setIsNewUser(true)
+          return
+        }
         // if (getAdditionalUserInfo(result)?.isNewUser) {
         if (userData.accountIsSetup === false) {
           setIsNewUser(true)
         }
+      } catch (error) {
+        console.log(error)
+      }
     })
 
     return () => unsubscribe()
@@ -247,7 +263,6 @@ function Account() {
 
         </div>
       </> : <>
-              
       </>
     }
 
