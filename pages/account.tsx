@@ -131,7 +131,7 @@ function Account() {
           
           const token = await result.user.getIdToken(true)
 
-          setCookie('__session', token)
+          setCookie('__session', token, {maxAge: 14 * 60 * 60 * 24})
           // Clear email from storage.
           // window.localStorage.removeItem('emailForSignIn')
           // // You can access the new user by importing getAdditionalUserInfo
@@ -174,6 +174,10 @@ function Account() {
         return
 
       try {
+        const token = await auth.currentUser.getIdToken(true)
+
+        setCookie('__session', token, { maxAge: 14 * 60 * 60 * 24 })
+        
         const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
           
         const userData = userDoc?.data()
@@ -269,14 +273,14 @@ function Account() {
             className={styles.button}
             onClick={() => {
               signOut(auth)
-              if (Cookies.get('token') !== undefined) {
-                Cookies.remove('token')
+              if (Cookies.get('__session') !== undefined) {
+                Cookies.remove('__session')
               }
             }}
           >
               Logout
           </button>
-          </div>
+          </div>  
 
         </>
       }

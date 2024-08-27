@@ -6,12 +6,13 @@ interface Props {
   image: string
   id: string
   author?: string
+  href: string
 }
 
-function StoryThumbnail({ title, image, id, author }: Props) {
+function StoryThumbnail({ title, image, id, author, href }: Props) {
   return (<>
     <a
-      href={`/library/fable/${id}`}
+      href={href}
       className={styles.container}
     >
       <img

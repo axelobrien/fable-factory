@@ -51,6 +51,7 @@ function CreateStory({ rawStories }: { rawStories: string }) {
             title={fable.title}
             image={fable.coverImage}
             id={fable.id}
+            href={`/library/fable/${fable.id}`}
           />
         </>)}
       </div>
