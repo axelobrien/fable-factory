@@ -6,15 +6,15 @@ export type StoryInput = {
   language: string
   readingLevel: ReadingLevel
   attachToUser: boolean
-  removeImage: boolean
+  delayImage: boolean
 }
 
 const defaultStoryInput: StoryInput = {
   language: 'es',
   prompt: '',
   readingLevel: 'A2',
-  attachToUser: false,
-  removeImage: false,
+  attachToUser: true,
+  delayImage: false,
 }
 
 export { defaultStoryInput }

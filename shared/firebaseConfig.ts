@@ -45,6 +45,6 @@ function turnOnEmulators() {
   }
 }
 
-// turnOnEmulators()
+turnOnEmulators()
 
 export { firebaseConfig, app, auth, db, functions }

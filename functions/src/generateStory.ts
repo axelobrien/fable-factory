@@ -1,12 +1,18 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
+import { initializeApp } from 'firebase/app'
+import { connectFunctionsEmulator, getFunctions, httpsCallable } from 'firebase/functions'
+import { Timestamp } from 'firebase/firestore'
+
+import { firebaseConfig } from '../../shared/firebaseConfig'
 import { StoryInput, StoryOutput } from '../../types/generateStory'
+
 import { Configuration, CreateChatCompletionResponse } from 'openai'
 import { ChatCompletionRequestMessage, OpenAIApi } from 'openai/dist/api'
-import { Timestamp } from 'firebase/firestore'
 import { v4 as uuid } from 'uuid'
 import ReadingLevel from '../../types/readingLevel'
 import type { AxiosResponse } from 'axios'
+import { generateDelayedImageParams } from './generateDelayedImage'
 
 if (!admin.apps.length)
   admin.initializeApp()
@@ -65,6 +71,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
 
   function validateInput(input: StoryInput): input is StoryInput {
     const readingLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+
     return (
       input &&
       typeof input.prompt === 'string' &&
@@ -83,7 +90,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     language: data.language,
     readingLevel: data.readingLevel,
     attachToUser: data.attachToUser,
-    removeImage: data.removeImage
+    delayImage: data.delayImage
   }
   
   async function getStoryAndCover() {
@@ -136,7 +143,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
   
     console.log('Simplified Story')
   
-    const rawCover = input.removeImage ? undefined : openai.createImage({
+    const rawCover = input.delayImage ? undefined : openai.createImage({
       prompt: `${input.prompt}, digital art, book cover, NO TEXT, NO TEXT`,
       n: 1,
       size: '1024x1024',
@@ -224,14 +231,31 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     output.id = docRef.id
     const firebaseResponse = await docRef.set({
       ...output,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: Date.now(),
     })
 
-    if (firebaseResponse)
+    if (firebaseResponse) {
+      const clientApp = initializeApp(firebaseConfig)
+      const functions = getFunctions(clientApp, "us-central1")
+
+      if (process.env.PRODUCTION_MODE === 'DEV') {
+        connectFunctionsEmulator(functions, '127.0.0.1', 5001)
+      }
+      const generateDelayedImage = httpsCallable<generateDelayedImageParams, boolean>(functions, 'generateDelayedImage')
+      
+      generateDelayedImage({
+        prompt: input.prompt,
+        id: output.id
+      })
+
+      // This is just to ensure that generateDelayedImage has enough time to send out the http request before the function is returned
+      // I don't need generateDelayedImage to finish and return I just need it to be sent out by the time this function ends
+      await (async () => null)()
+      
       return output
-    else
+    } else {
       throw new Error('Error writing to database')
-  
+    }
   } catch (error) {
     console.log(error)
     // @ts-ignore

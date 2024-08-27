@@ -69,7 +69,7 @@ function CreateStory() {
   useEffect(() => {
     if (storyLoadingState === StoryLoadingState.Loading) {
       const timer = setTimeout(() => {
-        setStoryLoadingText(uniqueItemFromList(loadingScreenTextList,storyLoadingText))
+        setStoryLoadingText(uniqueItemFromList(loadingScreenTextList, storyLoadingText))
       }, 3500)
 
       return () => {

@@ -37,7 +37,7 @@ function MyBookshelf({ rawStories }: { rawStories: string }) {
       />
 
       <h1 className={styles.header}>
-        Explore the Library
+        Explore your personal bookshelf
       </h1>
 
       {!fables && <>
@@ -64,11 +64,8 @@ function MyBookshelf({ rawStories }: { rawStories: string }) {
 export default MyBookshelf
 
 export async function getServerSideProps(context: GetServerSidePropsContext)  {
-  // const collectionData = await adminDb.collection('fables/visibility/public').orderBy('createdAt', 'desc').limit(30).get()
-  
-  // const stories = collectionData.docs.map(doc => doc.data())
   const token = context.req.cookies['token']
-
+  
   if (!token) {
     return {
       props: {
@@ -76,14 +73,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
       }
     }
   }
-
-
-  const decodedToken = await adminAuth.verifyIdToken(token)
-    
-  const { uid, email } = decodedToken
   
-  const stories = null
-  console.log('YESSSS')
+  const decodedToken = await adminAuth.verifyIdToken(token)
+  
+  const { uid } = decodedToken
+
+  const collectionData = await adminDb.collection('fables/visibility/private').where("userId", "==", uid).orderBy('createdAt', 'desc').limit(30).get()
+  
+  const stories = collectionData.docs.map(doc => doc.data())
   
   return {
     props: {

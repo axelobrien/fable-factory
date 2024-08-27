@@ -10,6 +10,10 @@ service cloud.firestore {
       allow read;
     }
 
+    match /fables/visibility/private/{story} {
+      allow read: if request.auth.uid == request.resource.data.userId;
+    }
+
     match /users/{uid} {
       allow read: if request.auth.uid == uid;
 

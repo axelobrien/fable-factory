@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Head from 'next/head'
 
 import { httpsCallable } from 'firebase/functions'
-import { User, getAdditionalUserInfo, getIdToken, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink } from 'firebase/auth'
+import { User, getAdditionalUserInfo, getIdToken, isSignInWithEmailLink, onAuthStateChanged, signInWithEmailLink, signOut } from 'firebase/auth'
 import { doc, DocumentSnapshot, getDoc, updateDoc } from 'firebase/firestore'
 
 import Cookies from 'js-cookie'
@@ -128,7 +128,7 @@ function Account() {
         .then(async (result) => {
           
           const token = await result.user.getIdToken(true)
-          console.log(await result.user.getIdTokenResult(true))
+
           Cookies.set('token', token, {secure: true, sameSite: 'strict'})
           // Clear email from storage.
           // window.localStorage.removeItem('emailForSignIn')
@@ -171,10 +171,6 @@ function Account() {
       if (!auth.currentUser || !auth.currentUser.uid) 
         return
 
-
-      console.log(await auth.currentUser.getIdTokenResult(true))
-
-    
       try {
         const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
           
@@ -207,7 +203,7 @@ function Account() {
         language: 'en',
         prompt:  `Make a story where ${answers?.name} is a hero in a medieval tale. Make them fight a dragon and win. Make sure the hero is named ${answers?.name}`,
         readingLevel: 'C2',
-        removeImage: true,
+        delayImage: true,
         attachToUser: true
       })).data // generateStory's return type is an object with only 1 key, data
       setStory(response)
@@ -264,7 +260,20 @@ function Account() {
         <div className={styles.main}>
           <h1 className={styles.header}>
             {userData?.email}
-            </h1>
+          </h1>
+          
+
+          <button
+            className={styles.button}
+            onClick={() => {
+              signOut(auth)
+              if (Cookies.get('token') !== undefined) {
+                Cookies.remove('token')
+              }
+            }}
+          >
+              Logout
+          </button>
           </div>
 
         </>
