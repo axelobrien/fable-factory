@@ -7,6 +7,14 @@
         { "fieldPath": "id", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING"}
       ]
+    },
+    {
+      "queryScope": "COLLECTION_GROUP",
+      "collectionGroup": "private",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING"}
+      ]
     }
   ],
   "fieldOverrides": []

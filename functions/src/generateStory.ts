@@ -231,7 +231,7 @@ const generateStory = functions.runWith({timeoutSeconds: 540}).https.onCall(asyn
     output.id = docRef.id
     const firebaseResponse = await docRef.set({
       ...output,
-      createdAt: Date.now(),
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     })
 
     if (firebaseResponse) {

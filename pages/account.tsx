@@ -18,6 +18,8 @@ import FableViewer from '../components/FableViewer'
 
 import shared from '../styles/shared.module.scss'
 import styles from '../styles/account.module.scss'
+import { isProduction } from '../shared/clientSharedVariables'
+import { setCookie } from 'cookies-next'
 
 function Account() {
   const [userData, setUserData] = useState<User | null>(null)
@@ -129,7 +131,7 @@ function Account() {
           
           const token = await result.user.getIdToken(true)
 
-          Cookies.set('token', token, {secure: true, sameSite: 'strict'})
+          setCookie('__session', token)
           // Clear email from storage.
           // window.localStorage.removeItem('emailForSignIn')
           // // You can access the new user by importing getAdditionalUserInfo

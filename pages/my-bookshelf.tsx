@@ -10,6 +10,7 @@ import Head from 'next/head'
 import { adminAuth, adminDb } from '../shared/adminFirebaseConfig'
 import shared from '../styles/shared.module.scss'
 import { GetServerSidePropsContext } from 'next'
+import { getCookie } from 'cookies-next'
 
 
 enum StoryLoadingState {
@@ -64,12 +65,15 @@ function MyBookshelf({ rawStories }: { rawStories: string }) {
 export default MyBookshelf
 
 export async function getServerSideProps(context: GetServerSidePropsContext)  {
-  const token = context.req.cookies['token']
-  
+  const token = getCookie('__session', {req: context.req, res: context.res})
+  console.warn(token)
+  console.warn(context.req)
+
   if (!token) {
     return {
       props: {
-        rawStories: null
+        rawStories: null,
+        error: true
       }
     }
   }
@@ -81,10 +85,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
   const collectionData = await adminDb.collection('fables/visibility/private').where("userId", "==", uid).orderBy('createdAt', 'desc').limit(30).get()
   
   const stories = collectionData.docs.map(doc => doc.data())
-  
+
+  // console.log(stories)
   return {
     props: {
-      rawStories: stories ? JSON.stringify(stories) : null
+      rawStories: stories ? JSON.stringify(stories) : null,
+      error: false
     }  
   }
   
