@@ -128,7 +128,7 @@ function Account() {
         .then(async (result) => {
           
           const token = await result.user.getIdToken(true)
-          
+          console.log(await result.user.getIdTokenResult(true))
           Cookies.set('token', token, {secure: true, sameSite: 'strict'})
           // Clear email from storage.
           // window.localStorage.removeItem('emailForSignIn')
@@ -168,14 +168,12 @@ function Account() {
     const unsubscribe = onAuthStateChanged(auth, async () => {
       setUserData(auth.currentUser)
 
-      if (auth && auth.currentUser?.uid === undefined) {
-        document.location.search = ''
-        document.location.pathname = '/login'
-        return
-      }
-
       if (!auth.currentUser || !auth.currentUser.uid) 
         return
+
+
+      console.log(await auth.currentUser.getIdTokenResult(true))
+
     
       try {
         const userDoc = await getDoc(doc(db, `users/${auth.currentUser.uid}`)) as DocumentSnapshot<{ accountIsSetup: boolean }>
@@ -263,8 +261,14 @@ function Account() {
 
         </div>
       </> : <>
-      </>
-    }
+        <div className={styles.main}>
+          <h1 className={styles.header}>
+            {userData?.email}
+            </h1>
+          </div>
+
+        </>
+      }
 
     <div className={shared.backgroundCircles}/>
   </>)

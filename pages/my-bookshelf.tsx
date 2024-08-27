@@ -77,12 +77,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext)  {
     }
   }
 
+
   const decodedToken = await adminAuth.verifyIdToken(token)
     
   const { uid, email } = decodedToken
   
   const stories = null
-  console.log(context.req.cookies)
+  console.log('YESSSS')
   
   return {
     props: {
