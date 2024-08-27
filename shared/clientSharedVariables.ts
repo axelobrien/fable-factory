@@ -1,3 +1,3 @@
-const isProduction = false
+const isProduction = true
 
 export { isProduction }

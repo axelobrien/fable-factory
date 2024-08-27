@@ -12,6 +12,7 @@ import shared from '../../styles/shared.module.scss'
 import { GetServerSidePropsContext } from 'next'
 import { getCookie, setCookie } from 'cookies-next'
 import { AuthError, onAuthStateChanged } from 'firebase/auth'
+import Link from 'next/link'
 
 
 enum StoryLoadingState {
@@ -21,7 +22,7 @@ enum StoryLoadingState {
   Error,
 }
 
-function MyBookshelf({ rawStories, expiredToken }: { rawStories: string, expiredToken: boolean | undefined }) {
+function MyBookshelf({ rawStories, expiredToken, error }: { rawStories: string, expiredToken?: boolean, error? : boolean }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async () => {
@@ -41,9 +42,33 @@ function MyBookshelf({ rawStories, expiredToken }: { rawStories: string, expired
 
   const fables = rawStories ? JSON.parse(rawStories) as StoryOutput[] : []
 
+  if (error) {
+    return <>
+      <Head>
+        <title>
+          Error, please login or make a fable
+        </title>
+      </Head>
+
+      <div className={shared.backgroundCircles} />
+
+      <main className={styles.container}>
+        <img
+          className={styles.blob}
+          src='/images/top-blob.svg'
+          alt=''
+        />
+        
+          <Link href='/login' className={styles.header}>
+            An error has occurred, please try logging in again.
+          </Link>
+      </main>
+    </>
+  }
+
   return (<>
     <Head>
-      <title>Library - Fable Factory</title>
+      <title>My Bookshelf - Fable Factory</title>
     </Head>
 
     <main className={styles.container}>
@@ -122,6 +147,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           expired_token: true
         }
       }
+    }
+  }
+
+  return {
+    props: {
+      rawStories: null,
+      error: true,
+      expired_token: false
     }
   }
 }

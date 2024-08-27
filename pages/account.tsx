@@ -20,6 +20,7 @@ import shared from '../styles/shared.module.scss'
 import styles from '../styles/account.module.scss'
 import { isProduction } from '../shared/clientSharedVariables'
 import { setCookie } from 'cookies-next'
+import Link from 'next/link'
 
 function Account() {
   const [userData, setUserData] = useState<User | null>(null)
@@ -267,20 +268,29 @@ function Account() {
           <h1 className={styles.header}>
             {userData?.email}
           </h1>
-          
 
-          <button
-            className={styles.button}
-            onClick={() => {
-              signOut(auth)
-              if (Cookies.get('__session') !== undefined) {
-                Cookies.remove('__session')
-              }
-            }}
-          >
-              Logout
-          </button>
-          </div>  
+          <div className={styles.buttonContainer}>
+            
+            <button onClick={() => {
+              document.location.search = ''
+              document.location.pathname = '/my-bookshelf'
+            }} className={styles.button}>
+              My Bookshelf
+            </button>
+
+            <button
+              className={styles.button}
+              onClick={() => {
+                signOut(auth)
+                if (Cookies.get('__session') !== undefined) {
+                  Cookies.remove('__session')
+                }
+              }}
+            >
+                Logout
+            </button>
+          </div>
+        </div>  
 
         </>
       }

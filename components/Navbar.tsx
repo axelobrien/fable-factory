@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from '../styles/navbar.module.scss'
 import ModalBackground from './ModalBackground'
 import Link from 'next/link'
+import { auth } from '../shared/firebaseConfig'
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -16,9 +17,25 @@ function Navbar() {
         <Link className={styles.navText} href='/library'>
           Library
         </Link>
+        
         <Link className={styles.navText} href='/create-fable'>
           New Fable
         </Link>
+
+        {!auth?.currentUser ? <>
+          <Link className={styles.navText} href={'/my-bookshelf'}>
+            My Bookshelf
+          </Link>
+
+          <Link className={styles.navText} href={'/account'}>
+            Account
+          </Link>
+        </> :
+          <Link className={styles.navText} href='/login'>
+            Login
+          </Link>
+        }
+
 
         <button
           className={styles.navButton}
@@ -58,6 +75,20 @@ function Navbar() {
               >
                 Library
               </Link>
+
+              {auth?.currentUser ? <>
+                <Link className={styles.modalLink} href={'/my-bookshelf'}>
+                  My Bookshelf
+                </Link>
+
+                <Link className={styles.modalLink} href={'/account'}>
+                  Account
+                </Link>
+              </> :
+                <Link className={styles.modalLink} href='/login'>
+                  Login
+                </Link>
+              }
             </div>
           </ModalBackground>
         </>}
